@@ -7,6 +7,7 @@ int main() {
     return 0;
 }
 
+/*
 //First Fit malloc
 void *ff_malloc(size_t size) {
 
@@ -34,3 +35,4 @@ unsigned long get_data_segment_size() {
 unsigned long get_data_segment_free_space_size() {
 
 }
+*/
