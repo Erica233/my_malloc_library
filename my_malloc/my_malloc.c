@@ -1,11 +1,15 @@
-#???
 #include <unistd.h>
+#include <stdio.h>
 #include "my_malloc.h"
+
+int main() {
+    printf("hello");
+    return 0;
+}
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
 
-  
 }
 
 //First Fit free
