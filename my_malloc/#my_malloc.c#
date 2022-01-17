@@ -23,10 +23,12 @@ int main() {
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
+  block_info_t *new_block;
+  // find the first fit available block
   // if there is no available block, then call sbrk() to create
   // first_block is null, or free_list is empty, or blocks in free_list are all smaller than required
   if (head == NULL) {
-    sbrk(size + BLOCK_INFO_SIZE);
+    new_block = sbrk(size + BLOCK_INFO_SIZE);
   }
   
 }
