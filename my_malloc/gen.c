@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
     sum += array[3][i];
   } //for i
 
-  FREE(array[0]);
-  FREE(array[2]);
+  ff_free(array[0]);
+  ff_free(array[2]);
 
   size = 7;
   expected_sum += size * size;
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
     sum += array[5][i];
   } //for i
 
-  FREE(array[5]);
-  FREE(array[1]);
-  FREE(array[3]);
+  ff_free(array[5]);
+  ff_free(array[1]);
+  ff_free(array[3]);
 
   size = 23;
   expected_sum += size * size;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     sum += array[7][i];
   } //for i
 
-  FREE(array[4]);
+  ff_free(array[4]);
 
   size = 10;
   expected_sum += size * size;
@@ -120,10 +120,10 @@ int main(int argc, char *argv[])
     sum += array[9][i];
   } //for i
 
-  FREE(array[6]);
-  FREE(array[7]);
-  FREE(array[8]);
-  FREE(array[9]);
+  ff_free(array[6]);
+  ff_free(array[7]);
+  ff_free(array[8]);
+  ff_free(array[9]);
 
   if (sum == expected_sum) {
     printf("Calculated expected value of %d\n", sum);
