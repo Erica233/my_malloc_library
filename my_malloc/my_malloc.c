@@ -31,7 +31,7 @@ void make_empty_list() {
   head->prev = NULL;
   tail->prev = head;
   tail->next = NULL;
-  
+
   heap_size += METADATA_SIZE * 2;
   free_size += METADATA_SIZE * 2;
 }
@@ -49,29 +49,33 @@ void *ff_malloc(size_t size) {
   if (head == NULL) {
     make_empty_list();
   }
-  
+
   // find the first fit available block
   //new_meta = find_ff(size);
   metadata_t * temp = head->next;
   while (temp->size != 0) {
     if (size <= temp->size) {
-      //split();
-      if (temp->size > size + METADATA_SIZE) {
-	//split();
-	metadata_t * left_part = (metadata_t *)((char *)temp + size + METADATA_SIZE); 
-	left_part->available = 1;
-	left_part->size = temp->size - size - METADATA_SIZE;
-	left_part->prev = NULL;
-	left_part->next = NULL;
-
-	//add left_part, 
-      } else {
-	//allocate directly (remove from list)
-      }
+        break;
     }
     temp = temp->next;
-  } 
-  
+  }
+  //found
+  if (temp->size != 0) {
+      //split() or directly remove;
+      if (temp->size > size + METADATA_SIZE) {
+          //split();
+          metadata_t *left_part = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
+          left_part->available = 1;
+          left_part->size = temp->size - size - METADATA_SIZE;
+          left_part->prev = NULL;
+          left_part->next = NULL;
+
+          //add left_part,
+      } else {
+          //allocate directly (remove from list)
+      }
+  }
+
   // if there is no available block, then call sbrk() to create
   // free_list is empty, or blocks in free_list are all smaller than required
   new_meta = sbrk(size + METADATA_SIZE);
