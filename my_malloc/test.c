@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include "my_malloc.c"
 
 int main() {
-  printf("hi\n");
+  printf("----------test result----------\n");
+
   return 0;
 }
