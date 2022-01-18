@@ -56,6 +56,12 @@ void *ff_malloc(size_t size) {
   while (temp->size != 0) {
     if (size <= temp->size) {
       //split();
+      if (temp->size > size + METADATA_SIZE) {
+	//split();
+	metadata_t * left_part = temp + METADATA_SIZE;
+      } else {
+	//allocate directly (remove from list)
+      }
     }
     temp = temp->next;
   } 
@@ -63,9 +69,13 @@ void *ff_malloc(size_t size) {
   // if there is no available block, then call sbrk() to create
   // free_list is empty, or blocks in free_list are all smaller than required
   new_meta = sbrk(size + METADATA_SIZE);
-
+  /*  new_meta->available = 0;
+  new_meta->size = size;
+  new_meta->prev = NULL;
+  new_meta->next = NULL;
+  */
   heap_size += size + METADATA_SIZE;
-  
+
   return new_meta + METADATA_SIZE;
 }
 
