@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include "my_malloc.h"
 
 typedef struct metadata metadata_t;
@@ -103,6 +102,7 @@ void *ff_malloc(size_t size) {
 //First Fit free
 void ff_free(void *ptr) {
     metadata_t * new_free = (metadata_t *)ptr - 1;
+    new_free->available = 1;
     // find the location and add to free list
     metadata_t * temp = head->next;
     while (temp->size != 0) {
@@ -111,16 +111,26 @@ void ff_free(void *ptr) {
         }
         temp = temp->next;
     }
+
+    // coalesce the adjacent free block (compare to the prev and the next)
+    //test if it needs to coalesce with the prev of new_free, if so, update the size
+    if (temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free) {
+        temp->prev->size += (METADATA_SIZE + new_free->size);
+    }
+    //test the next of new_free
+    if (temp->size != 0 && (char *)new_free + METADATA_SIZE + new_free->size == (char *)temp) {
+        temp = new_free;
+        temp->size += (METADATA_SIZE + new_free->size) ;
+    }
+
     /*
-    //add to the free list sorted by
+    //add to the free list sorted by address
     new_free->available = 1;
     new_free->next = temp;
     temp->prev->next = new_free;
     new_free->prev = temp->prev;
     temp->prev = new_free;
-     */
-    // coalesce the adjacent free block (compare to the prev and the next)
-    if ()
+    */
 }
 /*
 //Best Fit malloc
