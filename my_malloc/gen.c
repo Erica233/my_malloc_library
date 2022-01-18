@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "my_my_malloc.c"
+#include "my_malloc.c"
 
 int main(int argc, char *argv[])
 {
