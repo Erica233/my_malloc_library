@@ -44,7 +44,7 @@ metadata_t *find_ff() {
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
-  printf("------in ff_malloc--------\n");
+  //printf("------in ff_malloc--------\n");
 
   if (head == NULL) {
     make_empty_list();
