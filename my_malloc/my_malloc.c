@@ -17,6 +17,8 @@ size_t free_size = 0;
 
 void *ff_malloc(size_t size);
 void ff_free(void *ptr);
+unsigned long get_data_segment_size();
+unsigned long get_data_segment_free_space_size();
 
 void make_empty_list() {
   head = sbrk(METADATA_SIZE);
