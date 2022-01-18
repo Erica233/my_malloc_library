@@ -88,21 +88,21 @@ void *ff_malloc(size_t size) {
       // if there is no available block, then call sbrk() to create
       // free_list is empty, or blocks in free_list are all smaller than required
       temp = sbrk(size + METADATA_SIZE);
-      /*
-      new_meta->available = 0;
-      new_meta->size = size;
-      new_meta->prev = NULL;
-      new_meta->next = NULL;
-      */
+      temp->size = size;
+
       heap_size += size + METADATA_SIZE;
   }
+
+  temp->available = 0;
+  temp->prev = NULL;
+  temp->next = NULL;
 
   return temp + 1;
 }
 
 //First Fit free
 void ff_free(void *ptr) {
-  head = NULL;
+
 }
 /*
 //Best Fit malloc
