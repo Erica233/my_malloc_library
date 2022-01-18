@@ -45,8 +45,6 @@ metadata_t *find_ff() {
 void *ff_malloc(size_t size) {
   printf("------in ff_malloc--------\n");
 
-  metadata_t *new_meta;
-
   if (head == NULL) {
     make_empty_list();
   }
@@ -65,42 +63,41 @@ void *ff_malloc(size_t size) {
       //split() or directly remove;
       if (temp->size > size + METADATA_SIZE) {
           //split();
-          new_meta = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
+          metadata_t *new_meta = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
           new_meta->available = 1;
           new_meta->size = temp->size - size - METADATA_SIZE;
           new_meta->prev = NULL;
           new_meta->next = NULL;
 
           //add left_part, remove temp
-          /*
-          new_meta->next = temp->next;
-          temp->next = new_meta;
-          new_meta->prev = temp;
-          new_meta->prev = temp;
-          new_meta->next->prev = new_meta;
-           */
           temp->prev->next = new_meta;
           new_meta->prev = temp->prev;
           new_meta->next = temp->next;
           temp->next->prev = new_meta;
+
+          free_size -= (METADATA_SIZE + size);
       } else {
           //allocate directly (remove from list)
           temp->prev->next = temp->next;
           temp->next->prev = temp->prev;
+
+          free_size -= (METADATA_SIZE + temp->size);
       }
+  //not found available block
+  } else {
+      // if there is no available block, then call sbrk() to create
+      // free_list is empty, or blocks in free_list are all smaller than required
+      temp = sbrk(size + METADATA_SIZE);
+      /*
+      new_meta->available = 0;
+      new_meta->size = size;
+      new_meta->prev = NULL;
+      new_meta->next = NULL;
+      */
+      heap_size += size + METADATA_SIZE;
   }
 
-  // if there is no available block, then call sbrk() to create
-  // free_list is empty, or blocks in free_list are all smaller than required
-  new_meta = sbrk(size + METADATA_SIZE);
-  /*  new_meta->available = 0;
-  new_meta->size = size;
-  new_meta->prev = NULL;
-  new_meta->next = NULL;
-  */
-  heap_size += size + METADATA_SIZE;
-
-  return new_meta + 1;
+  return temp + 1;
 }
 
 //First Fit free
