@@ -2,7 +2,7 @@
 #include "my_malloc.c"
 
 int main() {
-  printf("----------test result----------\n");
+  printf("\n\n----------test result----------\n\n\n");
 
   return 0;
 }
