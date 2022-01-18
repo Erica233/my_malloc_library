@@ -112,15 +112,15 @@ void ff_free(void *ptr) {
         temp = temp->next;
     }
 
-    // coalesce the adjacent free block (compare to the prev and the next)
-    //test if it needs to coalesce with the prev of new_free, if so, update the size
-    if (temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free) {
-        temp->prev->size += (METADATA_SIZE + new_free->size);
-    }
     //test the next of new_free
     if (temp->size != 0 && (char *)new_free + METADATA_SIZE + new_free->size == (char *)temp) {
         temp = new_free;
         temp->size += (METADATA_SIZE + new_free->size) ;
+    }
+    // coalesce the adjacent free block (compare to the prev and the next)
+    //test if it needs to coalesce with the prev of new_free, if so, update the size
+    if (temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free) {
+        temp->prev->size += (METADATA_SIZE + new_free->size);
     }
 
     /*
