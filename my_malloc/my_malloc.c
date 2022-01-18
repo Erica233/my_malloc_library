@@ -103,7 +103,9 @@ void *ff_malloc(size_t size) {
 void ff_free(void *ptr) {
     metadata_t * new_free = (metadata_t *)ptr - 1;
     new_free->available = 1;
-    // find the location and add to free list
+    free_size += (METADATA_SIZE + new_free->size);
+
+    // find the location of new_free to add to free_list
     metadata_t * temp = head->next;
     while (temp->size != 0) {
         if (new_free < temp) {
@@ -112,25 +114,34 @@ void ff_free(void *ptr) {
         temp = temp->next;
     }
 
-    //test the next of new_free
-    if (temp->size != 0 && (char *)new_free + METADATA_SIZE + new_free->size == (char *)temp) {
-        temp = new_free;
-        temp->size += (METADATA_SIZE + new_free->size) ;
-    }
     // coalesce the adjacent free block (compare to the prev and the next)
-    //test if it needs to coalesce with the prev of new_free, if so, update the size
-    if (temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free) {
+    //case 1: coalesce with both prev and next (by removing next)
+    if (temp->size != 0 && temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free && (char *)new_free + METADATA_SIZE + new_free->size == (char *)temp) {
+        //update prev and remove next
+        temp->prev->size += (METADATA_SIZE * 2 + new_free->size + temp->size);
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
+    }
+    //case 2: coalesce with only prev
+    else if (temp->prev->size != 0 && (char *)temp->prev + METADATA_SIZE + temp->size == (char *)new_free) {
         temp->prev->size += (METADATA_SIZE + new_free->size);
     }
-
-    /*
-    //add to the free list sorted by address
-    new_free->available = 1;
-    new_free->next = temp;
-    temp->prev->next = new_free;
-    new_free->prev = temp->prev;
-    temp->prev = new_free;
-    */
+    //case 3: coalesce with only next (by replacing the temp with new_free)
+    else if (temp->size != 0 && (char *)new_free + METADATA_SIZE + new_free->size == (char *)temp) {
+        new_free->size += (METADATA_SIZE + temp->size);
+        new_free->next = temp->next;
+        temp->next->prev = new_free;
+        temp->prev->next = new_free;
+        new_free->prev = temp->prev;
+    }
+    //case 4: no need to coalesce
+    else {
+        //add before the temp
+        new_free->next = temp;
+        temp->prev->next = new_free;
+        new_free->prev = temp->prev;
+        temp->prev = new_free;
+    }
 }
 /*
 //Best Fit malloc
