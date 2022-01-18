@@ -45,7 +45,8 @@ metadata_t *find_ff() {
 void *ff_malloc(size_t size) {
   printf("------in ff_malloc--------\n");
 
-  //metadata_t *new_meta;
+  metadata_t *new_meta;
+
   if (head == NULL) {
     make_empty_list();
   }
@@ -59,20 +60,33 @@ void *ff_malloc(size_t size) {
     }
     temp = temp->next;
   }
-  //found
+  //found available block
   if (temp->size != 0) {
       //split() or directly remove;
       if (temp->size > size + METADATA_SIZE) {
           //split();
-          metadata_t *left_part = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
-          left_part->available = 1;
-          left_part->size = temp->size - size - METADATA_SIZE;
-          left_part->prev = NULL;
-          left_part->next = NULL;
+          new_meta = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
+          new_meta->available = 1;
+          new_meta->size = temp->size - size - METADATA_SIZE;
+          new_meta->prev = NULL;
+          new_meta->next = NULL;
 
-          //add left_part,
+          //add left_part, remove temp
+          /*
+          new_meta->next = temp->next;
+          temp->next = new_meta;
+          new_meta->prev = temp;
+          new_meta->prev = temp;
+          new_meta->next->prev = new_meta;
+           */
+          temp->prev->next = new_meta;
+          new_meta->prev = temp->prev;
+          new_meta->next = temp->next;
+          temp->next->prev = new_meta;
       } else {
           //allocate directly (remove from list)
+          temp->prev->next = temp->next;
+          temp->next->prev = temp->prev;
       }
   }
 
