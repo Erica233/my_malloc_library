@@ -102,7 +102,25 @@ void *ff_malloc(size_t size) {
 
 //First Fit free
 void ff_free(void *ptr) {
-
+    metadata_t * new_free = (metadata_t *)ptr - 1;
+    // find the location and add to free list
+    metadata_t * temp = head->next;
+    while (temp->size != 0) {
+        if (new_free < temp) {
+            break;
+        }
+        temp = temp->next;
+    }
+    /*
+    //add to the free list sorted by
+    new_free->available = 1;
+    new_free->next = temp;
+    temp->prev->next = new_free;
+    new_free->prev = temp->prev;
+    temp->prev = new_free;
+     */
+    // coalesce the adjacent free block (compare to the prev and the next)
+    if ()
 }
 /*
 //Best Fit malloc
