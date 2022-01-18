@@ -58,7 +58,13 @@ void *ff_malloc(size_t size) {
       //split();
       if (temp->size > size + METADATA_SIZE) {
 	//split();
-	metadata_t * left_part = temp + METADATA_SIZE;
+	metadata_t * left_part = (metadata_t *)((char *)temp + size + METADATA_SIZE); 
+	left_part->available = 1;
+	left_part->size = temp->size - size - METADATA_SIZE;
+	left_part->prev = NULL;
+	left_part->next = NULL;
+
+	//add left_part, 
       } else {
 	//allocate directly (remove from list)
       }
@@ -76,7 +82,7 @@ void *ff_malloc(size_t size) {
   */
   heap_size += size + METADATA_SIZE;
 
-  return new_meta + METADATA_SIZE;
+  return new_meta + 1;
 }
 
 //First Fit free
