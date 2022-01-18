@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "my_malloc.c"
+#include "my_my_malloc.c"
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
   size = 4;
   expected_sum += size * size;
-  array[0] = (int *)MALLOC(size * sizeof(int));
+  array[0] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[0][i] = size;
   } //for i
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
   size = 16;
   expected_sum += size * size;
-  array[1] = (int *)MALLOC(size * sizeof(int));
+  array[1] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[1][i] = size;
   } //for i
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
   size = 8;
   expected_sum += size * size;
-  array[2] = (int *)MALLOC(size * sizeof(int));
+  array[2] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[2][i] = size;
   } //for i
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
   size = 32;
   expected_sum += size * size;
-  array[3] = (int *)MALLOC(size * sizeof(int));
+  array[3] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[3][i] = size;
   } //for i
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
   size = 7;
   expected_sum += size * size;
-  array[4] = (int *)MALLOC(size * sizeof(int));
+  array[4] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[4][i] = size;
   } //for i
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
   size = 256;
   expected_sum += size * size;
-  array[5] = (int *)MALLOC(size * sizeof(int));
+  array[5] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[5][i] = size;
   } //for i
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
   size = 23;
   expected_sum += size * size;
-  array[6] = (int *)MALLOC(size * sizeof(int));
+  array[6] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[6][i] = size;
   } //for i
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
   size = 4;
   expected_sum += size * size;
-  array[7] = (int *)MALLOC(size * sizeof(int));
+  array[7] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[7][i] = size;
   } //for i
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
   size = 10;
   expected_sum += size * size;
-  array[8] = (int *)MALLOC(size * sizeof(int));
+  array[8] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[8][i] = size;
   } //for i
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 
   size = 32;
   expected_sum += size * size;
-  array[9] = (int *)MALLOC(size * sizeof(int));
+  array[9] = (int *)my_malloc(size * sizeof(int));
   for (i=0; i < size; i++) {
     array[9][i] = size;
   } //for i
