@@ -31,21 +31,41 @@ void make_empty_list() {
   head->prev = NULL;
   tail->prev = head;
   tail->next = NULL;
+  
+  heap_size += METADATA_SIZE * 2;
+  free_size += METADATA_SIZE * 2;
 }
+
+/*
+metadata_t *find_ff() {
+}
+*/
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
   printf("------in ff_malloc--------\n");
-  metadata_t *new_meta;
+
+  //metadata_t *new_meta;
   if (head == NULL) {
     make_empty_list();
   }
+  
   // find the first fit available block
+  //new_meta = find_ff(size);
+  metadata_t * temp = head->next;
+  while (temp->size != 0) {
+    if (size <= temp->size) {
+      //split();
+    }
+    temp = temp->next;
+  } 
+  
   // if there is no available block, then call sbrk() to create
-  // first_block is null, or free_list is empty, or blocks in free_list are all smaller than required
-  //if () {
+  // free_list is empty, or blocks in free_list are all smaller than required
   new_meta = sbrk(size + METADATA_SIZE);
-    //}
+
+  heap_size += size + METADATA_SIZE;
+  
   return new_meta + METADATA_SIZE;
 }
 
