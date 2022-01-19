@@ -27,9 +27,17 @@ unsigned long get_data_segment_free_space_size();
 
 void make_empty_list() {
     head = sbrk(METADATA_SIZE);
+    if (head == (void *) -1) {
+        printf("sbrk failed\n");
+        return NULL;
+    }
     head->available = 0;
     head->size = 0;
-    tail = sbrk(METADATA_SIZE);
+    tail = sbrk(METADATA_SIZE)    if (tail == (void *) -1) {
+        printf("sbrk failed\n");
+        return NULL;
+    };
+
     tail->available = 0;
     tail->size = 0;
 
@@ -128,6 +136,10 @@ void *ff_malloc(size_t size) {
         // if there is no available block, then call sbrk() to create
         // free_list is empty, or blocks in free_list are all smaller than required
         new_meta = sbrk(size + METADATA_SIZE);
+        if (new_meta == (void *) -1) {
+            printf("sbrk failed\n");
+            return NULL;
+        }
         new_meta->available = 0;
         new_meta->size = size;
         new_meta->prev = NULL;
