@@ -58,8 +58,8 @@ void print_free_list() {
         curr = curr->next;
         i++;
     }
-    printf("head: addr = %p avail = %d size = %lu\n", (unsigned long) head, head->available, head->size);
-    printf("tail: addr = %p avail = %d size = %lu\n", (unsigned long) tail, tail->available, tail->size);
+    printf("head: addr = %lu avail = %d size = %lu\n", (unsigned long) head, head->available, head->size);
+    printf("tail: addr = %lu avail = %d size = %lu\n", (unsigned long) tail, tail->available, tail->size);
     printf("end of program break: %lu\n\n", (unsigned long)sbrk(0));
 }
 
