@@ -51,13 +51,13 @@ void print_free_list() {
         printf("%dth free block: addr = %p avail = %d size = %zu\n", i, (void *)curr, curr->available, curr->size);
         curr = curr->next;
     }
-    printf("\nhead: addr = %p avail = %d size = %zu\n", (void *)head, head->available, head->size);
-    printf("tail: addr = %p avail = %d size = %zu\n", (void *)tail, tail->available, tail->size);
+    printf("head: addr = %p avail = %d size = %zu\n", (void *)head, head->available, head->size);
+    printf("tail: addr = %p avail = %d size = %zu\n\n", (void *)tail, tail->available, tail->size);
 }
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
-  printf("\n------in ff_malloc: \n");
+  printf("\n------------in ff_malloc: \n");
 
   metadata_t * new_meta;
 
