@@ -172,7 +172,7 @@ void ff_free(void *ptr) {
         temp->next->prev = temp->prev;
     }
         //case 2: coalesce with only prev
-    else if (temp->prev->size != 0 && (char *) temp->prev + METADATA_SIZE + temp->size == (char *) new_free) {
+    else if (temp->prev->size != 0 && (char *) temp->prev + METADATA_SIZE + temp->prev->size == (char *) new_free) {
         printf("case 2: merge prev:\n");
         temp->prev->size += (METADATA_SIZE + new_free->size);
     }
