@@ -62,7 +62,7 @@ void print_free_list() {
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
-    printf("\n~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
+    printf("~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
     printf("before malloc - current program break: %p\n", sbrk(0));
 
     metadata_t *new_meta;
@@ -116,7 +116,7 @@ void *ff_malloc(size_t size) {
             free_size = free_size - METADATA_SIZE - temp->size;
         }
         print_free_list();
-        printf("after malloc - current program break: %p\n", sbrk(0));
+        printf("after malloc - current program break: %p\n\n\n", sbrk(0));
         return temp + 1;
         //not found available block
     } else {
@@ -132,7 +132,7 @@ void *ff_malloc(size_t size) {
         heap_size = heap_size + METADATA_SIZE + size;
 
         print_free_list();
-        printf("after malloc - current program break: %p\n", sbrk(0));
+        printf("after malloc - current program break: %p\n\n\n", sbrk(0));
         return new_meta + 1;
     }
 }
