@@ -48,12 +48,12 @@ metadata_t *find_ff() {
 */
 
 void print_free_list() {
-    printf("\n------print_free_list: \n");
+    printf("------print_free_list: \n");
     metadata_t *curr = head;
     int i = 0;
     while (curr != 0) {
         printf("%dth free block: addr = %lu avail = %d size = %zu ", i, (unsigned long)curr, curr->available, curr->size);
-        printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
+        //printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
 
         curr = curr->next;
         i++;
@@ -66,7 +66,7 @@ void print_free_list() {
 //First Fit malloc
 void *ff_malloc(size_t size) {
     printf("~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
-    printf("before malloc - current program break: %p\n", sbrk(0));
+    printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
     printf("input size: %zu\n", size);
     metadata_t *new_meta;
 
@@ -119,8 +119,8 @@ void *ff_malloc(size_t size) {
             free_size = free_size - METADATA_SIZE - temp->size;
         }
         print_free_list();
-        printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
-        printf("return malloc()'s addr: %lu\n", (unsigned long)(temp + 1));
+        printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu size = %zu\n\n\n", (unsigned long)(temp + 1), temp->size);
         return temp + 1;
         //not found available block
     } else {
@@ -136,15 +136,15 @@ void *ff_malloc(size_t size) {
         heap_size = heap_size + METADATA_SIZE + size;
 
         print_free_list();
-        printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
-        printf("return malloc()'s addr: %lu\n", (unsigned long)(new_meta + 1));
+        printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->size);
         return new_meta + 1;
     }
 }
 
 //First Fit free
 void ff_free(void *ptr) {
-    printf("\n............in ff_free: ............\n");
+    printf("............in ff_free: ............\n");
     metadata_t *new_free = (metadata_t *) ptr - 1;
     printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
     new_free->available = 1;
@@ -195,6 +195,7 @@ void ff_free(void *ptr) {
         temp->prev = new_free;
     }
     print_free_list();
+    printf("\n");
 }
 
 /*
