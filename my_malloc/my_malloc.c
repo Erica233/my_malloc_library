@@ -57,7 +57,7 @@ void print_free_list() {
 
 //First Fit malloc
 void *ff_malloc(size_t size) {
-  printf("------in ff_malloc: \n");
+  printf("\n------in ff_malloc: \n");
 
   metadata_t * new_meta;
 
@@ -72,6 +72,7 @@ void *ff_malloc(size_t size) {
   metadata_t * temp = head->next;
   while (temp->size != 0) {
     if (size <= temp->size) {
+        printf("====find the first fit available block\n");
         break;
     }
     temp = temp->next;
@@ -118,7 +119,7 @@ void *ff_malloc(size_t size) {
 
       heap_size = heap_size + METADATA_SIZE + size;
 
-      return new_meta;
+      return new_meta + 1;
   }
 }
 
