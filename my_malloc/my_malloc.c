@@ -139,6 +139,7 @@ void *ff_malloc(size_t size) {
 
 //First Fit free
 void ff_free(void *ptr) {
+    printf("\n............in ff_free: ............\n");
     metadata_t *new_free = (metadata_t *) ptr - 1;
     new_free->available = 1;
     free_size += (METADATA_SIZE + new_free->size);
@@ -157,6 +158,7 @@ void ff_free(void *ptr) {
     if (temp->size != 0 && temp->prev->size != 0 &&
         (char *) temp->prev + METADATA_SIZE + temp->size == (char *) new_free &&
         (char *) new_free + METADATA_SIZE + new_free->size == (char *) temp) {
+        printf("case 1: merge prev and next:\n");
         //update prev and remove next
         temp->prev->size += (METADATA_SIZE * 2 + new_free->size + temp->size);
         temp->prev->next = temp->next;
@@ -164,10 +166,12 @@ void ff_free(void *ptr) {
     }
         //case 2: coalesce with only prev
     else if (temp->prev->size != 0 && (char *) temp->prev + METADATA_SIZE + temp->size == (char *) new_free) {
+        printf("case 2: merge prev:\n");
         temp->prev->size += (METADATA_SIZE + new_free->size);
     }
         //case 3: coalesce with only next (by replacing the temp with new_free)
     else if (temp->size != 0 && (char *) new_free + METADATA_SIZE + new_free->size == (char *) temp) {
+        printf("case 3: merge next:\n");
         new_free->size += (METADATA_SIZE + temp->size);
         new_free->next = temp->next;
         temp->next->prev = new_free;
@@ -176,12 +180,14 @@ void ff_free(void *ptr) {
     }
         //case 4: no need to coalesce
     else {
+        printf("case 4: no merge - add to list:\n");
         //add before the temp
         new_free->next = temp;
         temp->prev->next = new_free;
         new_free->prev = temp->prev;
         temp->prev = new_free;
     }
+    print_free_list();
 }
 
 /*
