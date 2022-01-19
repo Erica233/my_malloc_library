@@ -64,7 +64,7 @@ void print_free_list() {
     }
     printf("head: addr = %p avail = %d size = %zu\n", (void *) head, head->available, head->size);
     printf("tail: addr = %p avail = %d size = %zu\n", (void *) tail, tail->available, tail->size);
-    printf("end of program break: %p\n\n", sbrk(0));
+    printf("end of program break: %lu\n\n", (unsigned long)sbrk(0));
 }
 
 //First Fit malloc
