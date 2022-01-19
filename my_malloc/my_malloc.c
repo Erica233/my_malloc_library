@@ -33,7 +33,8 @@ void make_empty_list() {
     }
     head->available = 0;
     head->size = 0;
-    tail = sbrk(METADATA_SIZE)    if (tail == (void *) -1) {
+    tail = sbrk(METADATA_SIZE);
+    if (tail == (void *) -1) {
         printf("sbrk failed\n");
         return NULL;
     };
