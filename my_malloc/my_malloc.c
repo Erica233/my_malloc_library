@@ -56,7 +56,8 @@ void print_free_list() {
         if (curr->next) {
             printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
         } else {
-            printf("diff = %lu\n", sbrk(0) - (unsigned long)curr);
+            void * p = sbrk(0);
+            printf("diff = %lu\n", (unsigned long)p - (unsigned long)curr);
         }
         curr = curr->next;
         i++;
