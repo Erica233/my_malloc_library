@@ -123,7 +123,7 @@ void *ff_malloc(size_t size) {
             free_size = free_size - METADATA_SIZE - temp->size;
         }
         print_free_list();
-        printf("after malloc - current program break: %p\n\n\n", sbrk(0));
+        printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
         return temp + 1;
         //not found available block
     } else {
@@ -139,7 +139,7 @@ void *ff_malloc(size_t size) {
         heap_size = heap_size + METADATA_SIZE + size;
 
         print_free_list();
-        printf("after malloc - current program break: %p\n\n\n", sbrk(0));
+        printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
         return new_meta + 1;
     }
 }
