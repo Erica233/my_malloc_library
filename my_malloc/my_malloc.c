@@ -49,7 +49,7 @@ void print_free_list() {
     int i = 0;
     while (curr != 0) {
         printf("%dth free block: addr = %p avail = %d size = %zu\n", i, (void *)curr, curr->available, curr->size);
-        temp = curr->next;
+        curr = curr->next;
     }
     printf("\nhead: addr = %p avail = %d size = %zu\n", (void *)head, head->available, head->size);
     printf("tail: addr = %p avail = %d size = %zu\n", (void *)tail, tail->available, tail->size);
