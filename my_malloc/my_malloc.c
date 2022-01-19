@@ -210,7 +210,7 @@ void ff_free(void *ptr) {
     //printf("\n");
 }
 
-
+/*
 //Best Fit malloc
 void *bf_malloc(size_t size) {
   return NULL;
@@ -221,6 +221,7 @@ void *bf_malloc(size_t size) {
 void bf_free(void *ptr) {
   return NULL;
 }
+ */
 
 unsigned long get_data_segment_size() {
     return heap_size;
