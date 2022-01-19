@@ -15,6 +15,7 @@ metadata_t *tail = NULL;
 size_t heap_size = 0;
 size_t free_size = 0;
 
+void print_free_list();
 void *ff_malloc(size_t size);
 void ff_free(void *ptr);
 unsigned long get_data_segment_size();
@@ -42,12 +43,26 @@ metadata_t *find_ff() {
 }
 */
 
+void print_free_list() {
+    printf("------print_free_list: \n\n");
+    metadata_t * curr = head;
+    int i = 0;
+    while (curr != 0) {
+        printf("%dth free block: addr = %p avail = %d size = %zu\n", i, curr, curr->available, curr->size);
+        temp = curr->next;
+    }
+    printf("\nhead: addr = %p avail = %d size = %zu\n", head, head->available, head->size);
+    printf("tail: addr = %p avail = %d size = %zu\n", tail, tail->available, tail->size);
+}
+
 //First Fit malloc
 void *ff_malloc(size_t size) {
-  //printf("------in ff_malloc--------\n");
+  printf("------in ff_malloc: \n");
 
   if (head == NULL) {
-    make_empty_list();
+      printf("---it's the very first block in heap: \n");
+      make_empty_list();
+      print_free_list();
   }
 
   // find the first fit available block
@@ -84,6 +99,7 @@ void *ff_malloc(size_t size) {
 
           free_size -= (METADATA_SIZE + temp->size);
       }
+      return new_meta + 1;
   //not found available block
   } else {
       // if there is no available block, then call sbrk() to create
