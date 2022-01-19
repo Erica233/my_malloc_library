@@ -52,7 +52,12 @@ void print_free_list() {
     metadata_t *curr = head;
     int i = 0;
     while (curr != 0) {
-        printf("%dth free block: addr = %p avail = %d size = %zu diff = %lu\n", i, (void *) curr, curr->available, curr->size, (unsigned long)curr->next - (unsigned long)curr);
+        printf("%dth free block: addr = %p avail = %d size = %zu ", i, (void *) curr, curr->available, curr->size);
+        if (curr->next) {
+            printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
+        } else {
+            printf("diff = %lu\n", sbrk(0) - (unsigned long)curr);
+        }
         curr = curr->next;
         i++;
     }
