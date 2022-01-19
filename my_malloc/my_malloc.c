@@ -53,17 +53,13 @@ void print_free_list() {
     int i = 0;
     while (curr != 0) {
         printf("%dth free block: addr = %lu avail = %d size = %zu ", i, (unsigned long)curr, curr->available, curr->size);
-        if (curr->next) {
-            printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
-        } else {
-            void * p = sbrk(0);
-            printf("diff = %lu\n", (unsigned long)p - (unsigned long)curr);
-        }
+        printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
+
         curr = curr->next;
         i++;
     }
-    printf("head: addr = %p avail = %d size = %zu\n", (void *) head, head->available, head->size);
-    printf("tail: addr = %p avail = %d size = %zu\n", (void *) tail, tail->available, tail->size);
+    printf("head: addr = %p avail = %d size = %lu\n", (unsigned long) head, head->available, head->size);
+    printf("tail: addr = %p avail = %d size = %lu\n", (unsigned long) tail, tail->available, tail->size);
     printf("end of program break: %lu\n\n", (unsigned long)sbrk(0));
 }
 
@@ -75,7 +71,7 @@ void *ff_malloc(size_t size) {
     metadata_t *new_meta;
 
     if (head == NULL) {
-        printf("---it's the very first block in heap: \n");
+        printf("---it's the very first block in heap: init free_list \n");
         make_empty_list();
         print_free_list();
     }
@@ -124,6 +120,7 @@ void *ff_malloc(size_t size) {
         }
         print_free_list();
         printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu\n", (unsigned long)(temp + 1));
         return temp + 1;
         //not found available block
     } else {
@@ -140,6 +137,7 @@ void *ff_malloc(size_t size) {
 
         print_free_list();
         printf("after malloc - current program break: %lu\n\n\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu\n", (unsigned long)(new_meta + 1));
         return new_meta + 1;
     }
 }
@@ -148,6 +146,7 @@ void *ff_malloc(size_t size) {
 void ff_free(void *ptr) {
     printf("\n............in ff_free: ............\n");
     metadata_t *new_free = (metadata_t *) ptr - 1;
+    printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
     new_free->available = 1;
     free_size += (METADATA_SIZE + new_free->size);
 
@@ -155,6 +154,7 @@ void ff_free(void *ptr) {
     metadata_t *temp = head->next;
     while (temp->size != 0) {
         if (new_free < temp) {
+            printf("find the loc to add new_free: temp at %lu\n", (unsigned long)temp);
             break;
         }
         temp = temp->next;
