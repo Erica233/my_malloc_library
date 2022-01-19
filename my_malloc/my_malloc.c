@@ -71,7 +71,7 @@ void print_free_list() {
 void *ff_malloc(size_t size) {
     printf("~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
     printf("before malloc - current program break: %p\n", sbrk(0));
-
+    printf("input size: %zu\n", size);
     metadata_t *new_meta;
 
     if (head == NULL) {
