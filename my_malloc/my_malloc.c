@@ -163,7 +163,7 @@ void ff_free(void *ptr) {
     // coalesce the adjacent free block (compare to the prev and the next)
     //case 1: coalesce with both prev and next (by removing next)
     if (temp->size != 0 && temp->prev->size != 0 &&
-        (char *) temp->prev + METADATA_SIZE + temp->size == (char *) new_free &&
+            (char *) temp->prev + METADATA_SIZE + temp->prev->size == (char *) new_free &&
         (char *) new_free + METADATA_SIZE + new_free->size == (char *) temp) {
         printf("case 1: merge prev and next:\n");
         //update prev and remove next
