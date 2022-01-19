@@ -48,11 +48,11 @@ void print_free_list() {
     metadata_t * curr = head;
     int i = 0;
     while (curr != 0) {
-        printf("%dth free block: addr = %p avail = %d size = %zu\n", i, curr, curr->available, curr->size);
+        printf("%dth free block: addr = %p avail = %d size = %zu\n", i, (void *)curr, curr->available, curr->size);
         temp = curr->next;
     }
-    printf("\nhead: addr = %p avail = %d size = %zu\n", head, head->available, head->size);
-    printf("tail: addr = %p avail = %d size = %zu\n", tail, tail->available, tail->size);
+    printf("\nhead: addr = %p avail = %d size = %zu\n", (void *)head, head->available, head->size);
+    printf("tail: addr = %p avail = %d size = %zu\n", (void *)tail, tail->available, tail->size);
 }
 
 //First Fit malloc
