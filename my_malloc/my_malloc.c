@@ -52,7 +52,7 @@ void print_free_list() {
     metadata_t *curr = head;
     int i = 0;
     while (curr != 0) {
-        printf("%dth free block: addr = %p avail = %d size = %zu ", i, (void *) curr, curr->available, curr->size);
+        printf("%dth free block: addr = %lu avail = %d size = %zu ", i, (unsigned long)curr, curr->available, curr->size);
         if (curr->next) {
             printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
         } else {
@@ -131,7 +131,7 @@ void *ff_malloc(size_t size) {
         // if there is no available block, then call sbrk() to create
         // free_list is empty, or blocks in free_list are all smaller than required
         new_meta = sbrk(size + METADATA_SIZE);
-        new_meta->available = 1;
+        new_meta->available = 0;
         new_meta->size = size;
         new_meta->prev = NULL;
         new_meta->next = NULL;
