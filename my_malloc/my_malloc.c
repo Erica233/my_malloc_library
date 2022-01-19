@@ -89,7 +89,7 @@ void *ff_malloc(size_t size) {
     //found available block
     if (temp->size != 0) {
         printf("====found: \n");
-        //split() or directly remove;
+        //split() or directly remove; (allocate former part)
         if (temp->size > size + METADATA_SIZE) {
             printf("====split: \n");
             //split();
