@@ -29,14 +29,14 @@ void make_empty_list() {
     head = sbrk(METADATA_SIZE);
     if (head == (void *) -1) {
         printf("sbrk failed\n");
-        return NULL;
+        return;
     }
     head->available = 0;
     head->size = 0;
     tail = sbrk(METADATA_SIZE);
     if (tail == (void *) -1) {
         printf("sbrk failed\n");
-        return NULL;
+        return;
     };
 
     tail->available = 0;
