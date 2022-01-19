@@ -79,8 +79,10 @@ void *ff_malloc(size_t size) {
   }
   //found available block
   if (temp->size != 0) {
+      printf("====found: \n");
       //split() or directly remove;
       if (temp->size > size + METADATA_SIZE) {
+          printf("====split: \n");
           //split();
           //generate new metadata for the left part
           new_meta = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
@@ -99,6 +101,7 @@ void *ff_malloc(size_t size) {
 
           free_size = free_size - METADATA_SIZE - size;
       } else {
+          printf("====not split (allocate directly (remove from list)): \n");
           //allocate directly (remove from list)
           temp->available = 0;
           temp->prev->next = temp->next;
@@ -106,9 +109,11 @@ void *ff_malloc(size_t size) {
 
           free_size = free_size - METADATA_SIZE - temp->size;
       }
+      print_free_list();
       return temp + 1;
   //not found available block
   } else {
+      printf("====not found: \n");
       // if there is no available block, then call sbrk() to create
       // free_list is empty, or blocks in free_list are all smaller than required
       new_meta = sbrk(size + METADATA_SIZE);
@@ -119,6 +124,7 @@ void *ff_malloc(size_t size) {
 
       heap_size = heap_size + METADATA_SIZE + size;
 
+      print_free_list();
       return new_meta + 1;
   }
 }
