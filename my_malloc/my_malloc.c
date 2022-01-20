@@ -34,12 +34,12 @@ void make_empty_list() {
     }
     head->available = 0;
     head->size = 0;
+
     tail = sbrk(METADATA_SIZE);
     if (tail == (void *) -1) {
         ////printf("sbrk failed\n");
         return;
     };
-
     tail->available = 0;
     tail->size = 0;
 
@@ -61,7 +61,7 @@ void print_free_list() {
     //printf("------print_free_list: \n");
     metadata_t *curr = head;
     int i = 0;
-    while (curr != 0) {
+    while (curr != NULL) {
         //printf("%dth free block: addr = %lu avail = %d size = %zu\n", i, (unsigned long)curr, curr->available, curr->size);
         ////printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
 
@@ -77,7 +77,7 @@ void print_from_back() {
     //printf("------print_from_back: \n");
     metadata_t *curr = tail;
     int i = 0;
-    while (curr != 0) {
+    while (curr != NULL) {
         //printf("%dth free block: addr = %lu avail = %d size = %zu\n", i, (unsigned long)curr, curr->available, curr->size);
         ////printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
 
@@ -94,15 +94,15 @@ void *ff_malloc(size_t size) {
     //printf("~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
     //printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
     //printf("input size: %zu\n", size);
-    if (size == 0) {
+    if (size <= 0) {
         return NULL;
     }
-    metadata_t *new_meta;
+    //metadata_t *new_meta;
 
     if (head == NULL) {
         //printf("---it's the very first block in heap: init free_list \n");
         make_empty_list();
-        print_free_list();
+        //print_free_list();
         //print_from_back();
     }
 
@@ -123,8 +123,8 @@ void *ff_malloc(size_t size) {
         if (temp->size > size + METADATA_SIZE) {
             //printf("====split: \n");
             //split();
-            //generate new metadata for the left part
-            new_meta = (metadata_t *) ((char *) temp + size + METADATA_SIZE);
+            //generate new metadata (add to free list) for the left part
+            metadata_t * new_meta = (metadata_t *) ((char *) temp + METADATA_SIZE + size);
             new_meta->available = 1;
             new_meta->size = temp->size - size - METADATA_SIZE;
             new_meta->prev = NULL;
@@ -148,7 +148,9 @@ void *ff_malloc(size_t size) {
 
             free_size = free_size - METADATA_SIZE - temp->size;
         }
-        print_free_list();
+        temp->next = NULL;
+        temp->prev = NULL;
+        //print_free_list();
         //print_from_back();
         //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(temp + 1), temp->available, temp->size);
@@ -158,7 +160,7 @@ void *ff_malloc(size_t size) {
         //printf("====not found: \n");
         // if there is no available block, then call sbrk() to create
         // free_list is empty, or blocks in free_list are all smaller than required
-        new_meta = sbrk(size + METADATA_SIZE);
+        metadata_t * new_meta = sbrk(size + METADATA_SIZE);
         if (new_meta == (void *) -1) {
             ////printf("sbrk failed\n");
             return NULL;
@@ -170,8 +172,8 @@ void *ff_malloc(size_t size) {
 
         heap_size = heap_size + METADATA_SIZE + size;
 
-        print_free_list();
-        print_from_back();
+        //print_free_list();
+        ////print_from_back();
         //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
         return new_meta + 1;
@@ -188,6 +190,8 @@ void ff_free(void *ptr) {
     //printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
     new_free->available = 1;
     free_size += (METADATA_SIZE + new_free->size);
+    new_free->prev = NULL;
+    new_free->next = NULL;
 
     // find the location of new_free to add to free_list
     metadata_t *temp = head->next;
@@ -209,6 +213,8 @@ void ff_free(void *ptr) {
         temp->prev->size += (METADATA_SIZE * 2 + new_free->size + temp->size);
         temp->prev->next = temp->next;
         temp->next->prev = temp->prev;
+        temp->next = NULL;
+        temp->prev = NULL;
     }
         //case 2: coalesce with only prev
     else if (temp->prev->size != 0 && (char *) temp->prev + METADATA_SIZE + temp->prev->size == (char *) new_free) {
@@ -233,8 +239,8 @@ void ff_free(void *ptr) {
         new_free->prev = temp->prev;
         temp->prev = new_free;
     }
-    print_free_list();
-    print_from_back();
+    //print_free_list();
+    //print_from_back();
     //printf("\n");
 }
 
