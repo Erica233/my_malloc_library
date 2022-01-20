@@ -7,7 +7,7 @@
 metadata_t *head = NULL;
 metadata_t *tail = NULL;
 size_t heap_size = 0;
-size_t free_size = 0;
+//size_t free_size = 0;
 
 
 void make_empty_list() {
@@ -35,7 +35,7 @@ void make_empty_list() {
     tail->prev = head;
 
     heap_size += METADATA_SIZE * 2;
-    free_size += METADATA_SIZE * 2;
+    //free_size += METADATA_SIZE * 2;
 }
 
 
@@ -180,7 +180,7 @@ void *my_malloc(size_t size, int alloc_policy) {
             usable->prev->next = usable->next;
             usable->next->prev = usable->prev;
 
-            free_size = free_size - METADATA_SIZE - usable->size;
+            //free_size = free_size - METADATA_SIZE - usable->size;
         }
         usable->next = NULL;
         usable->prev = NULL;
@@ -235,7 +235,7 @@ void split(metadata_t * usable, size_t size) {
     new_meta->next = usable->next;
     usable->next->prev = new_meta;
 
-    free_size = free_size - METADATA_SIZE - size;
+    //free_size = free_size - METADATA_SIZE - size;
 }
 
 metadata_t * expand_heap(size_t size) {
@@ -394,7 +394,7 @@ void my_free(void *ptr) {
     metadata_t *new_free = (metadata_t *) ptr - 1;
     //printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
     new_free->available = 1;
-    free_size += (METADATA_SIZE + new_free->size);
+    //free_size += (METADATA_SIZE + new_free->size);
     new_free->prev = NULL;
     new_free->next = NULL;
 
