@@ -324,7 +324,7 @@ void *bf_malloc(size_t size) {
             best_free->prev->next = best_free->next;
             best_free->next->prev = best_free->prev;
 
-            free_size = free_size - METADATA_SIZE - temp->size;
+            free_size = free_size - METADATA_SIZE - best_free->size;
         }
         best_free->next = NULL;
         best_free->prev = NULL;
