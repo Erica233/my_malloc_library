@@ -295,11 +295,11 @@ void *bf_malloc(size_t size) {
     //printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )best_free, smallest_size);
 
     //found available block
-    if (best_free != 0) {
-        //printf("====found: \n");
+    if (best_free != NULL) {
+        printf("====found: \n");
         //split() or directly remove; (allocate former part)
         if (best_free->size > size + METADATA_SIZE) {
-            //printf("====split: \n");
+            printf("====split: \n");
             //split();
             //generate new metadata (add to free list) for the left part
             metadata_t * new_meta = (metadata_t *) ((char *) best_free + METADATA_SIZE + size);
@@ -318,7 +318,7 @@ void *bf_malloc(size_t size) {
 
             free_size = free_size - METADATA_SIZE - size;
         } else {
-            //printf("====not split (allocate directly (remove from list)): \n");
+            printf("====not split (allocate directly (remove from list)): \n");
             //allocate directly (remove from list)
             best_free->available = 0;
             best_free->prev->next = best_free->next;
@@ -328,14 +328,14 @@ void *bf_malloc(size_t size) {
         }
         best_free->next = NULL;
         best_free->prev = NULL;
-        //print_free_list();
+        print_free_list();
         //print_from_back();
-        //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
-        //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(temp + 1), temp->available, temp->size);
+        printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(best_free + 1), best_free->available, best_free->size);
         return best_free + 1;
         //not found available block
     } else {
-        //printf("====not found: \n");
+        printf("====not found: \n");
         // if there is no available block, then call sbrk() to create
         // free_list is empty, or blocks in free_list are all smaller than required
         metadata_t * new_meta = sbrk(size + METADATA_SIZE);
@@ -350,10 +350,10 @@ void *bf_malloc(size_t size) {
 
         heap_size = heap_size + METADATA_SIZE + size;
 
-        //print_free_list();
+        print_free_list();
         ////print_from_back();
-        //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
-        //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
+        printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
         return new_meta + 1;
     }
 
