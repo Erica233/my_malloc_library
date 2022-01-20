@@ -272,11 +272,12 @@ void *bf_malloc(size_t size) {
     int j = 0;
     metadata_t * best_free = NULL;
     unsigned long long smallest_size = ULLONG_MAX;
+    printf("initial smallest_size = %llu\n", smallest_size);
     metadata_t *temp = head->next;
     printf("go to while loop: \n");
     while (temp->size != 0) {
         printf("      %dth loop: \n", j);
-        printf("best_free addr = %lu size = %lu\n",(unsigned long)best_free, best_free->size);
+        //printf("best_free addr = %lu size = %lu\n",(unsigned long)best_free, best_free->size);
         printf("temp addr = %lu size = %lu\n", (unsigned long)temp, temp->size);
         if (size <= temp->size) {
             printf("a block:  large enough\n");
