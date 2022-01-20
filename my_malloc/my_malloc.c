@@ -286,6 +286,39 @@ void *bf_malloc(size_t size) {
                 smallest_size = temp->size;
                 best_free = temp;
                 printf("after update: size = %llu addr = %lu\n", smallest_size, (unsigned long)best_free);
+                if (size == smallest_size) {
+                    break;
+                }
+            }
+        }
+        j++;
+        temp = temp->next;
+    }
+
+    /*
+    printf("====try to find the best fit available block\n");
+    int j = 0;
+    metadata_t * best_free = head;
+    if (head->next->size != 0) {
+
+    }
+     */
+
+    //unsigned long long smallest_size = ULLONG_MAX;
+    //printf("initial smallest_size = %llu\n", smallest_size);
+    metadata_t *temp = head->next;
+    printf("go to while loop: \n");
+    while (temp->size != 0) {
+        printf("~~~~~~~%dth loop: \n", j);
+        printf("temp addr = %lu size = %lu\n", (unsigned long)temp, temp->size);
+        if (size <= temp->size) {
+            printf("a block:  large enough\n");
+            printf("current smallest_size = %llu\n", smallest_size);
+            if (temp->size < smallest_size) {
+                printf("smaller size - need to update best_free:\n");
+                smallest_size = temp->size;
+                best_free = temp;
+                printf("after update: size = %llu addr = %lu\n", smallest_size, (unsigned long)best_free);
             }
         }
         j++;
