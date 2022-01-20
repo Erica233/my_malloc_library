@@ -9,6 +9,10 @@ struct metadata {
     metadata_t *prev;
 };
 
+void print_free_list();
+void print_from_back();
+
+void my_free(void *ptr);
 
 //First Fit malloc/free
 void *ff_malloc(size_t size);
