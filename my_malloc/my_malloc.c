@@ -66,15 +66,15 @@ void print_free_list() {
     metadata_t *curr = head;
     int i = 0;
     while (curr != NULL) {
-        //printf("%dth free block: addr = %lu avail = %d size = %zu\n", i, (unsigned long)curr, curr->available, curr->size);
-        ////printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
+        printf("%dth free block: addr = %lu avail = %d size = %zu\n", i, (unsigned long)curr, curr->available, curr->size);
+        //printf("diff = %lu\n", (unsigned long)curr->next - (unsigned long)curr);
 
         curr = curr->next;
         i++;
     }
-    //printf("head: addr = %lu avail = %d size = %lu\n", (unsigned long) head, head->available, head->size);
-    //printf("tail: addr = %lu avail = %d size = %lu\n", (unsigned long) tail, tail->available, tail->size);
-    //printf("end of program break: %lu\n\n", (unsigned long)sbrk(0));
+    printf("head: addr = %lu avail = %d size = %lu\n", (unsigned long) head, head->available, head->size);
+    printf("tail: addr = %lu avail = %d size = %lu\n", (unsigned long) tail, tail->available, tail->size);
+    printf("end of program break: %lu\n\n", (unsigned long)sbrk(0));
 }
 
 void print_from_back() {
@@ -251,36 +251,48 @@ void my_free(void *ptr) {
 
 //Best Fit malloc
 void *bf_malloc(size_t size) {
-    //printf("~~~~~~~~~~~~in bf_malloc: ~~~~~~~~~~~~\n");
-    //printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
-    //printf("input size: %zu\n", size);
+    printf("~~~~~~~~~~~~in bf_malloc: ~~~~~~~~~~~~\n");
+    printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
+    printf("input size: %zu\n", size);
     if (size <= 0) {
         return NULL;
     }
     //metadata_t *new_meta;
 
     if (head == NULL) {
-        //printf("---it's the very first block in heap: init free_list \n");
+        printf("---it's the very first block in heap: init free_list \n");
         make_empty_list();
-        //print_free_list();
+        print_free_list();
         //print_from_back();
     }
 
     // find the best fit available block
     //new_meta = find_ff(size);
+    printf("====try to find the best fit available block\n");
+    int j = 0;
     metadata_t * best_free = NULL;
     unsigned long long smallest_size = ULLONG_MAX;
     metadata_t *temp = head->next;
+    printf("go to while loop: \n");
     while (temp->size != 0) {
+        printf("      %dth loop: \n", j);
+        printf("best_free addr = %lu size = %lu\n",(unsigned long)best_free, best_free->size);
+        printf("temp addr = %lu size = %lu\n", (unsigned long)temp, temp->size);
         if (size <= temp->size) {
+            printf("a block:  large enough\n");
+            printf("current smallest_size = %llu\n", smallest_size);
             if (temp->size < smallest_size) {
+                printf("smaller size - need to update best_free:\n");
                 smallest_size = temp->size;
                 best_free = temp;
+                printf("after update: size = %llu addr = %lu\n", smallest_size, (unsigned long)best_free);
             }
-            //printf("====find the best fit available block\n");
         }
+        j++;
         temp = temp->next;
     }
+    printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )best_free, smallest_size);
+
     //found available block
     if (best_free->size != 0) {
         //printf("====found: \n");
