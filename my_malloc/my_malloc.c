@@ -302,8 +302,6 @@ void *bf_malloc(size_t size) {
     if (head->next->size != 0) {
 
     }
-     */
-
     //unsigned long long smallest_size = ULLONG_MAX;
     //printf("initial smallest_size = %llu\n", smallest_size);
     metadata_t *temp = head->next;
@@ -324,6 +322,7 @@ void *bf_malloc(size_t size) {
         j++;
         temp = temp->next;
     }
+    */
 
     printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )best_free, smallest_size);
 
