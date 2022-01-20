@@ -127,7 +127,7 @@ void *my_malloc(size_t size, int alloc_policy) {
         //print_from_back();
     }
 
-    metadata_t * usable = NULL;
+    metadata_t * usable;
     //first fit malloc
     if (alloc_policy == 0) {
         usable = find_ff(size);
