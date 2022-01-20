@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "my_malloc.c"
+#include "my_malloc.h"
 
 int main(int argc, char *argv[]) {
     const unsigned NUM_ITEMS = 10;
