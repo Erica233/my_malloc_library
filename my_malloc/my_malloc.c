@@ -276,7 +276,7 @@ void *bf_malloc(size_t size) {
     metadata_t *temp = head->next;
     printf("go to while loop: \n");
     while (temp->size != 0) {
-        printf("      %dth loop: \n", j);
+        printf("~~~~~~~%dth loop: \n", j);
         //printf("best_free addr = %lu size = %lu\n",(unsigned long)best_free, best_free->size);
         printf("temp addr = %lu size = %lu\n", (unsigned long)temp, temp->size);
         if (size <= temp->size) {
