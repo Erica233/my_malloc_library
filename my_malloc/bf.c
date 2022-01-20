@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     printf("free array[4] in main: \n");
     bf_free(array[4]);
 
-    size = 25;
+    size = 16;
     expected_sum += size * size;
     printf("6th malloc in main:\n");
     array[5] = (int *) bf_malloc(size * sizeof(int));
