@@ -14,6 +14,8 @@ void print_from_back();
 
 void my_free(void *ptr);
 metadata_t * expand_heap(size_t size);
+void split(metadata_t * usable, size_t size);
+
 //First Fit malloc/free
 void *ff_malloc(size_t size);
 void ff_free(void *ptr);

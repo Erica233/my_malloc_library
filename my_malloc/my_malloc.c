@@ -152,7 +152,10 @@ void *my_malloc(size_t size, int alloc_policy) {
         //split() or directly remove; (allocate former part)
         if (usable->size > size + METADATA_SIZE) {
             //printf("====split: \n");
-            //split();
+
+            split(usable, size);
+
+            /*
             //generate new metadata (add to free list) for the left part
             metadata_t * new_meta = (metadata_t *) ((char *) usable + METADATA_SIZE + size);
             new_meta->available = 1;
@@ -169,6 +172,7 @@ void *my_malloc(size_t size, int alloc_policy) {
             usable->next->prev = new_meta;
 
             free_size = free_size - METADATA_SIZE - size;
+             */
         } else {
             //printf("====not split (allocate directly (remove from list)): \n");
             //allocate directly (remove from list)
@@ -213,6 +217,25 @@ void *my_malloc(size_t size, int alloc_policy) {
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
         return new_meta + 1;
     }
+}
+
+void split(metadata_t * usable, size_t size) {
+    //generate new metadata (add to free list) for the left part
+    metadata_t * new_meta = (metadata_t *) ((char *) usable + METADATA_SIZE + size);
+    new_meta->available = 1;
+    new_meta->size = usable->size - size - METADATA_SIZE;
+    new_meta->prev = NULL;
+    new_meta->next = NULL;
+
+    //replace the usable with new_meta
+    usable->available = 0;
+    usable->size = size;
+    usable->prev->next = new_meta;
+    new_meta->prev = usable->prev;
+    new_meta->next = usable->next;
+    usable->next->prev = new_meta;
+
+    free_size = free_size - METADATA_SIZE - size;
 }
 
 metadata_t * expand_heap(size_t size) {
