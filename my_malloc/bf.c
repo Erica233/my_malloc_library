@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     size = 25;
     expected_sum += size * size;
     printf("1th malloc in main:\n");
-    array[0] = (int *) ff_malloc(size * sizeof(int));
+    array[0] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[0][i] = size;
     } //for i
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     size = 1;
     expected_sum += size * size;
     printf("2th malloc in main:\n");
-    array[1] = (int *) ff_malloc(size * sizeof(int));
+    array[1] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[1][i] = size;
     } //for i
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     size = 8;
     expected_sum += size * size;
     printf("3th malloc in main:\n");
-    array[2] = (int *) ff_malloc(size * sizeof(int));
+    array[2] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[2][i] = size;
     } //for i
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     size = 1;
     expected_sum += size * size;
     printf("4th malloc in main:\n");
-    array[3] = (int *) ff_malloc(size * sizeof(int));
+    array[3] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[3][i] = size;
     } //for i
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     size = 12;
     expected_sum += size * size;
     printf("5th malloc in main:\n");
-    array[4] = (int *) ff_malloc(size * sizeof(int));
+    array[4] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[4][i] = size;
     } //for i
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
     size = 1;
     expected_sum += size * size;
     printf("6th malloc in main:\n");
-    array[5] = (int *) ff_malloc(size * sizeof(int));
+    array[5] = (int *) bf_malloc(size * sizeof(int));
     for (i = 0; i < size; i++) {
         array[5][i] = size;
     } //for i
@@ -84,11 +84,11 @@ int main(int argc, char *argv[]) {
     } //for i
 
     printf("free array[5] in main: \n");
-    ff_free(array[5]);
+    bf_free(array[5]);
     printf("free array[1] in main: \n");
-    ff_free(array[1]);
+    bf_free(array[1]);
     printf("free array[3] in main: \n");
-    ff_free(array[3]);
+    bf_free(array[3]);
 
 
     if (sum == expected_sum) {
