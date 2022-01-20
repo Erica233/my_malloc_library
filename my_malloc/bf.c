@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     int expected_sum = 0;
     int *array[NUM_ITEMS];
 
-    size = 25;
+    size = 1;
     expected_sum += size * size;
     printf("1th malloc in main:\n");
     array[0] = (int *) bf_malloc(size * sizeof(int));
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
         sum += array[1][i];
     } //for i
 
-    size = 8;
+    size = 1;
     expected_sum += size * size;
     printf("3th malloc in main:\n");
     array[2] = (int *) bf_malloc(size * sizeof(int));
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
         sum += array[3][i];
     } //for i
 
-    size = 12;
+    size = 1;
     expected_sum += size * size;
     printf("5th malloc in main:\n");
     array[4] = (int *) bf_malloc(size * sizeof(int));
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     printf("free array[4] in main: \n");
     bf_free(array[4]);
 
-    size = 30;
+    size = 1;
     expected_sum += size * size;
     printf("6th malloc in main:\n");
     array[5] = (int *) bf_malloc(size * sizeof(int));
