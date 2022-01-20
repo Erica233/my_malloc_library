@@ -268,58 +268,58 @@ void *bf_malloc(size_t size) {
 
     // find the best fit available block
     //new_meta = find_ff(size);
-    metadata_t * best_free = head->next;
-    //unsigned long long smallest_size = head->next->size;
+    metadata_t * best_free = NULL;
+    unsigned long long smallest_size = ULONG_LONG_MAX;
     metadata_t *temp = head->next;
     while (temp->size != 0) {
         if (size <= temp->size) {
-            if (temp->size < best_free->size) {
+            if (temp->size < smallest_size) {
+                smallest_size = temp->size;
                 best_free = temp;
-                //smallest_size = best_free->size;
             }
             //printf("====find the best fit available block\n");
         }
         temp = temp->next;
     }
     //found available block
-    if (temp->size != 0) {
+    if (best_free->size != 0) {
         //printf("====found: \n");
         //split() or directly remove; (allocate former part)
-        if (temp->size > size + METADATA_SIZE) {
+        if (best_free->size > size + METADATA_SIZE) {
             //printf("====split: \n");
             //split();
             //generate new metadata (add to free list) for the left part
-            metadata_t * new_meta = (metadata_t *) ((char *) temp + METADATA_SIZE + size);
+            metadata_t * new_meta = (metadata_t *) ((char *) best_free + METADATA_SIZE + size);
             new_meta->available = 1;
-            new_meta->size = temp->size - size - METADATA_SIZE;
+            new_meta->size = best_free->size - size - METADATA_SIZE;
             new_meta->prev = NULL;
             new_meta->next = NULL;
 
-            //replace the temp with new_meta
-            temp->available = 0;
-            temp->size = size;
-            temp->prev->next = new_meta;
-            new_meta->prev = temp->prev;
-            new_meta->next = temp->next;
-            temp->next->prev = new_meta;
+            //replace the best_free with new_meta
+            best_free->available = 0;
+            best_free->size = size;
+            best_free->prev->next = new_meta;
+            new_meta->prev = best_free->prev;
+            new_meta->next = best_free->next;
+            best_free->next->prev = new_meta;
 
             free_size = free_size - METADATA_SIZE - size;
         } else {
             //printf("====not split (allocate directly (remove from list)): \n");
             //allocate directly (remove from list)
-            temp->available = 0;
-            temp->prev->next = temp->next;
-            temp->next->prev = temp->prev;
+            best_free->available = 0;
+            best_free->prev->next = best_free->next;
+            best_free->next->prev = best_free->prev;
 
             free_size = free_size - METADATA_SIZE - temp->size;
         }
-        temp->next = NULL;
-        temp->prev = NULL;
+        best_free->next = NULL;
+        best_free->prev = NULL;
         //print_free_list();
         //print_from_back();
         //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(temp + 1), temp->available, temp->size);
-        return temp + 1;
+        return best_free + 1;
         //not found available block
     } else {
         //printf("====not found: \n");
