@@ -110,6 +110,9 @@ metadata_t * find_bf(size_t size) {
         j++;
         temp = temp->next;
     }
+    if (best_free == NULL) {
+        best_free = head;
+    }
     return best_free;
 }
 
