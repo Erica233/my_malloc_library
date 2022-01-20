@@ -578,5 +578,13 @@ unsigned long get_data_segment_size() {
 }
 
 unsigned long get_data_segment_free_space_size() {
-    return free_size;
+    //return free_size;
+
+    unsigned long total = 0;
+    metadata_t * temp = head->next;
+    while (temp->size != 0) {
+        total += (METADATA_SIZE + temp->size);
+        temp = temp->next;
+    }
+    return total;
 }
