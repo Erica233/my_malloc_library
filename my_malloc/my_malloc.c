@@ -243,7 +243,7 @@ void my_free(void *ptr) {
         new_free->prev = temp->prev;
         temp->prev = new_free;
     }
-    print_free_list();
+    //print_free_list();
     //print_from_back();
     //printf("\n");
 }
@@ -262,7 +262,7 @@ void *bf_malloc(size_t size) {
     if (head == NULL) {
         //printf("---it's the very first block in heap: init free_list \n");
         make_empty_list();
-        print_free_list();
+        //print_free_list();
         //print_from_back();
     }
 
@@ -328,7 +328,7 @@ void *bf_malloc(size_t size) {
         }
         best_free->next = NULL;
         best_free->prev = NULL;
-        print_free_list();
+        //print_free_list();
         //print_from_back();
         //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(best_free + 1), best_free->available, best_free->size);
@@ -350,7 +350,7 @@ void *bf_malloc(size_t size) {
 
         heap_size = heap_size + METADATA_SIZE + size;
 
-        print_free_list();
+        //print_free_list();
         ////print_from_back();
         //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
