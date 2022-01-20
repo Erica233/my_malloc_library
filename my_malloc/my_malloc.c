@@ -275,7 +275,7 @@ void *bf_malloc(size_t size) {
         if (size <= temp->size) {
             if (temp->size < best_free->size) {
                 best_free = temp;
-                smallest_size = best_free->size;
+                //smallest_size = best_free->size;
             }
             //printf("====find the best fit available block\n");
         }
