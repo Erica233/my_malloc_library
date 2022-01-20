@@ -94,6 +94,9 @@ void *ff_malloc(size_t size) {
     //printf("~~~~~~~~~~~~in ff_malloc: ~~~~~~~~~~~~\n");
     //printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
     //printf("input size: %zu\n", size);
+    if (size == 0) {
+        return NULL;
+    }
     metadata_t *new_meta;
 
     if (head == NULL) {
