@@ -12,16 +12,17 @@ struct metadata {
 void print_free_list();
 void print_from_back();
 
-void my_free(void *ptr);
 metadata_t * expand_heap(size_t size);
+metadata_t * find_ff(size_t size);
+metadata_t * find_bf(size_t size);
 void split(metadata_t * usable, size_t size);
-
-//First Fit malloc/free
+void *my_malloc(size_t size, int alloc_policy);
 void *ff_malloc(size_t size);
-void ff_free(void *ptr);
-
-//Best Fit malloc/free
 void *bf_malloc(size_t size);
+
+void coalesce(metadata_t * new_free, metadata_t * temp);
+void my_free(void *ptr);
+void ff_free(void *ptr);
 void bf_free(void *ptr);
 
 unsigned long get_data_segment_size();
