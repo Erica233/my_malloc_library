@@ -9,9 +9,6 @@ struct metadata {
     metadata_t *prev;
 };
 
-void print_free_list();
-void print_from_back();
-
 metadata_t * expand_heap(size_t size);
 metadata_t * find_ff(size_t size);
 metadata_t * find_bf(size_t size);
