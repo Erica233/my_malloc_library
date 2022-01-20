@@ -135,7 +135,7 @@ void *my_malloc(size_t size, int alloc_policy) {
     if (alloc_policy == 1) {
         usable = find_bf(size);
     }
-    printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )usable, usable);
+    printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )usable, usable->size);
 
     //found available block
     if (usable->size != 0) {
