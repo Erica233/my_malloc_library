@@ -83,12 +83,12 @@ int main(int argc, char *argv[]) {
         sum += array[5][i];
     } //for i
 
-    printf("free array[5] in main: \n");
-    bf_free(array[5]);
-    printf("free array[1] in main: \n");
-    bf_free(array[1]);
     printf("free array[3] in main: \n");
     bf_free(array[3]);
+    printf("free array[1] in main: \n");
+    bf_free(array[1]);
+    printf("free array[5] in main: \n");
+    bf_free(array[5]);
 
 
     if (sum == expected_sum) {
