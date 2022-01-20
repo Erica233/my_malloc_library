@@ -1,12 +1,14 @@
 #ifndef __MY_MALLOC_H__
 #define __MY_MALLOC_H__
 
-typedef struct block block_t;
-struct block {
-  int avail;
-  size_t size;
-  block_t *next;
+typedef struct metadata metadata_t;
+struct metadata {
+    int available;
+    size_t size;
+    metadata_t *next;
+    metadata_t *prev;
 };
+
 
 //First Fit malloc/free
 void *ff_malloc(size_t size);

@@ -3,13 +3,6 @@
 #include <limits.h>
 #include "my_malloc.h"
 
-typedef struct metadata metadata_t;
-struct metadata {
-    int available;
-    size_t size;
-    metadata_t *next;
-    metadata_t *prev;
-};
 #define METADATA_SIZE sizeof(metadata_t)
 metadata_t *head = NULL;
 metadata_t *tail = NULL;
@@ -56,10 +49,6 @@ void make_empty_list() {
     free_size += METADATA_SIZE * 2;
 }
 
-/*
-metadata_t *find_ff() {
-}
-*/
 
 void print_free_list() {
     //printf("------print_free_list: \n");
@@ -184,33 +173,12 @@ void *ff_malloc(size_t size) {
     }
 }
 
-//my free
-void my_free(void *ptr) {
-    //printf("............in ff_free: ............\n");
-    if (ptr == NULL) {
-        return;
-    }
-    metadata_t *new_free = (metadata_t *) ptr - 1;
-    //printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
-    new_free->available = 1;
-    free_size += (METADATA_SIZE + new_free->size);
-    new_free->prev = NULL;
-    new_free->next = NULL;
 
-    // find the location of new_free to add to free_list
-    metadata_t *temp = head->next;
-    while (temp->size != 0) {
-        if (new_free < temp) {
-            //printf("find the loc to add new_free: temp at %lu\n", (unsigned long)temp);
-            break;
-        }
-        temp = temp->next;
-    }
-
+void coalesce(metadata_t * new_free, metadata_t * temp) {
     // coalesce the adjacent free block (compare to the prev and the next)
     //case 1: coalesce with both prev and next (by removing next)
     if (temp->size != 0 && temp->prev->size != 0 &&
-            (char *) temp->prev + METADATA_SIZE + temp->prev->size == (char *) new_free &&
+        (char *) temp->prev + METADATA_SIZE + temp->prev->size == (char *) new_free &&
         (char *) new_free + METADATA_SIZE + new_free->size == (char *) temp) {
         //printf("case 1: merge prev and next:\n");
         //update prev and remove next
@@ -243,6 +211,32 @@ void my_free(void *ptr) {
         new_free->prev = temp->prev;
         temp->prev = new_free;
     }
+}
+
+//my free
+void my_free(void *ptr) {
+    //printf("............in ff_free: ............\n");
+    if (ptr == NULL) {
+        return;
+    }
+    metadata_t *new_free = (metadata_t *) ptr - 1;
+    //printf("need to free ptr (*new_free) at %lu\n", (unsigned long )new_free);
+    new_free->available = 1;
+    free_size += (METADATA_SIZE + new_free->size);
+    new_free->prev = NULL;
+    new_free->next = NULL;
+
+    // find the location of new_free to add to free_list
+    metadata_t *temp = head->next;
+    while (temp->size != 0) {
+        if (new_free < temp) {
+            //printf("find the loc to add new_free: temp at %lu\n", (unsigned long)temp);
+            break;
+        }
+        temp = temp->next;
+    }
+
+    coalesce(new_free, temp);
     //print_free_list();
     //print_from_back();
     //printf("\n");
