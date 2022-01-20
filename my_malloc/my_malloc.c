@@ -11,6 +11,9 @@ size_t free_size = 0;
 
 
 void make_empty_list() {
+    head = expand_heap(0);
+    tail = expand_heap(0);
+    /*
     head = sbrk(METADATA_SIZE);
     if (head == (void *) -1) {
         ////printf("sbrk failed\n");
@@ -26,11 +29,10 @@ void make_empty_list() {
     };
     tail->available = 0;
     tail->size = 0;
+    */
 
     head->next = tail;
-    head->prev = NULL;
     tail->prev = head;
-    tail->next = NULL;
 
     heap_size += METADATA_SIZE * 2;
     free_size += METADATA_SIZE * 2;
@@ -185,9 +187,13 @@ void *my_malloc(size_t size, int alloc_policy) {
         return usable + 1;
         //not found available block
     } else {
+        metadata_t * new_meta = expand_heap(size);
+        heap_size = heap_size + METADATA_SIZE + size;
+
         //printf("====not found: \n");
         // if there is no available block, then call sbrk() to create
         // free_list is empty, or blocks in free_list are all smaller than required
+        /*
         metadata_t * new_meta = sbrk(size + METADATA_SIZE);
         if (new_meta == (void *) -1) {
             ////printf("sbrk failed\n");
@@ -199,6 +205,7 @@ void *my_malloc(size_t size, int alloc_policy) {
         new_meta->next = NULL;
 
         heap_size = heap_size + METADATA_SIZE + size;
+         */
 
         //print_free_list();
         ////print_from_back();
@@ -206,6 +213,19 @@ void *my_malloc(size_t size, int alloc_policy) {
         //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
         return new_meta + 1;
     }
+}
+
+metadata_t * expand_heap(size_t size) {
+    metadata_t * new_meta = sbrk(size + METADATA_SIZE);
+    if (new_meta == (void *) -1) {
+        ////printf("sbrk failed\n");
+        return NULL;
+    }
+    new_meta->available = 0;
+    new_meta->size = size;
+    new_meta->prev = NULL;
+    new_meta->next = NULL;
+    return new_meta;
 }
 
 //First Fit malloc
