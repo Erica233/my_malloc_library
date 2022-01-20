@@ -269,7 +269,7 @@ void *bf_malloc(size_t size) {
     // find the best fit available block
     //new_meta = find_ff(size);
     metadata_t * best_free = NULL;
-    unsigned long long smallest_size = ULONG_LONG_MAX;
+    unsigned long long smallest_size = ULLONG_MAX;
     metadata_t *temp = head->next;
     while (temp->size != 0) {
         if (size <= temp->size) {
