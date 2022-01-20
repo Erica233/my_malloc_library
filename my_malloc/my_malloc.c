@@ -291,10 +291,11 @@ void *bf_malloc(size_t size) {
         j++;
         temp = temp->next;
     }
-    printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )best_free, smallest_size);
+
+    //printf("after while: \nbest_free addr = %lu size = %llu\n", (unsigned long )best_free, smallest_size);
 
     //found available block
-    if (best_free->size != 0) {
+    if (best_free != 0) {
         //printf("====found: \n");
         //split() or directly remove; (allocate former part)
         if (best_free->size > size + METADATA_SIZE) {
