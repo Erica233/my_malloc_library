@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <limits.h>
 #include "my_malloc.h"
 
 typedef struct metadata metadata_t;
@@ -18,12 +19,15 @@ size_t free_size = 0;
 void print_free_list();
 void print_from_back();
 
-void *ff_malloc(size_t size);
 
+void *ff_malloc(size_t size);
+void *bf_malloc(size_t size);
+
+void my_free(void *ptr);
 void ff_free(void *ptr);
+void bf_free(void *ptr);
 
 unsigned long get_data_segment_size();
-
 unsigned long get_data_segment_free_space_size();
 
 void make_empty_list() {
@@ -180,8 +184,8 @@ void *ff_malloc(size_t size) {
     }
 }
 
-//First Fit free
-void ff_free(void *ptr) {
+//my free
+void my_free(void *ptr) {
     //printf("............in ff_free: ............\n");
     if (ptr == NULL) {
         return;
@@ -244,18 +248,114 @@ void ff_free(void *ptr) {
     //printf("\n");
 }
 
-/*
+
 //Best Fit malloc
 void *bf_malloc(size_t size) {
-  return NULL;
+    //printf("~~~~~~~~~~~~in bf_malloc: ~~~~~~~~~~~~\n");
+    //printf("before malloc - current program break: %lu\n", (unsigned long )sbrk(0));
+    //printf("input size: %zu\n", size);
+    if (size <= 0) {
+        return NULL;
+    }
+    //metadata_t *new_meta;
 
+    if (head == NULL) {
+        //printf("---it's the very first block in heap: init free_list \n");
+        make_empty_list();
+        //print_free_list();
+        //print_from_back();
+    }
+
+    // find the best fit available block
+    //new_meta = find_ff(size);
+    metadata_t * best_free = head->next;
+    //unsigned long long smallest_size = head->next->size;
+    metadata_t *temp = head->next;
+    while (temp->size != 0) {
+        if (size <= temp->size) {
+            if (temp->size < best_free->size) {
+                best_free = temp;
+                smallest_size = best_free->size;
+            }
+            //printf("====find the best fit available block\n");
+        }
+        temp = temp->next;
+    }
+    //found available block
+    if (temp->size != 0) {
+        //printf("====found: \n");
+        //split() or directly remove; (allocate former part)
+        if (temp->size > size + METADATA_SIZE) {
+            //printf("====split: \n");
+            //split();
+            //generate new metadata (add to free list) for the left part
+            metadata_t * new_meta = (metadata_t *) ((char *) temp + METADATA_SIZE + size);
+            new_meta->available = 1;
+            new_meta->size = temp->size - size - METADATA_SIZE;
+            new_meta->prev = NULL;
+            new_meta->next = NULL;
+
+            //replace the temp with new_meta
+            temp->available = 0;
+            temp->size = size;
+            temp->prev->next = new_meta;
+            new_meta->prev = temp->prev;
+            new_meta->next = temp->next;
+            temp->next->prev = new_meta;
+
+            free_size = free_size - METADATA_SIZE - size;
+        } else {
+            //printf("====not split (allocate directly (remove from list)): \n");
+            //allocate directly (remove from list)
+            temp->available = 0;
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+
+            free_size = free_size - METADATA_SIZE - temp->size;
+        }
+        temp->next = NULL;
+        temp->prev = NULL;
+        //print_free_list();
+        //print_from_back();
+        //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(temp + 1), temp->available, temp->size);
+        return temp + 1;
+        //not found available block
+    } else {
+        //printf("====not found: \n");
+        // if there is no available block, then call sbrk() to create
+        // free_list is empty, or blocks in free_list are all smaller than required
+        metadata_t * new_meta = sbrk(size + METADATA_SIZE);
+        if (new_meta == (void *) -1) {
+            ////printf("sbrk failed\n");
+            return NULL;
+        }
+        new_meta->available = 0;
+        new_meta->size = size;
+        new_meta->prev = NULL;
+        new_meta->next = NULL;
+
+        heap_size = heap_size + METADATA_SIZE + size;
+
+        //print_free_list();
+        ////print_from_back();
+        //printf("after malloc - current program break: %lu\n", (unsigned long)sbrk(0));
+        //printf("return malloc()'s addr: %lu avail = %d size = %zu\n\n\n", (unsigned long)(new_meta + 1), new_meta->available, new_meta->size);
+        return new_meta + 1;
+    }
+
+}
+
+//First Fit free
+void ff_free(void *ptr) {
+    my_free(ptr);
 }
 
 //Best Fit free
 void bf_free(void *ptr) {
-  return NULL;
+    my_free(ptr);
 }
- */
+
 
 unsigned long get_data_segment_size() {
     return heap_size;
