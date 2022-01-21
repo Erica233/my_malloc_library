@@ -7,14 +7,11 @@ A written report called report.pdf that includes an overview of how you implemen
 
 HW1 - Report
 
-Implementation description – different allocation policies
-Results (runtime, fragmentation)
-Analysis
+Implementation description
+Results & Analysis
 Recommendations
 
-
-
-Implementation description – different allocation policies
+Implementation description
 
 
 metadata
@@ -27,13 +24,14 @@ I used a doubly linked list to store the list of free memory regions, which is o
 
 Malloc and free are the two main parts of memory allocation. In malloc part, my function will search through the free list to check if there is any available block to store the requested size. If there is at least one available and fitted block, then this block will be allocated. Otherwise, it will use the sbrk() system call to expand the heap area. An important case that I took into consideration is that if the ideal free block is larger than required size, it will split the block into two separate blocks. The first part will be allocated, and the left part will become a new free block and replace the original free block into the free list. However, if the left part is not large enough to store the metadata of a block, then this free block will be directly allocated even if it has larger space than required. 
 
-When implementing malloc function, I used two different memory allocation policies, first fit and best fit. For first fit malloc, I searched the free list from the beginning, and once found a free block that has enough space to fit the required size, it will jump out of the loop and return that free block so that it does not have to search the remaining list, which would be a waste of runtime. While for best fit malloc, I added two extra variables, one is a pointer to track the best fit block with the smallest size and the other is to store the available size of that block. Besides, it will iterate through all the free blocks, since we need to pick the smallest size from all the fitted blocks. However, when the size of current block is equal to the required size, the function will directly jump out of the loop, and allocate that block.
+When implementing malloc function, I used two different memory allocation policies, first fit and best fit. For first fit malloc, I searched the free list from the beginning, and once found a free block that has enough space to fit the required size, it will jump out of the loop and return that free block so that it does not have to search the remaining list, which would be a waste of runtime. While for best fit malloc, I added two extra variables, one is a pointer to track the best fit block with the smallest size and the other is to store the available size of that block. Besides, it will iterate through all the free blocks and update these two variables if a smaller fitted block is found, since we need to pick the smallest size from all the fitted blocks. However, when the size of current block is equal to the required size, the function will directly jump out of the loop, and allocate that block.
 
 In free part, my function will firstly find the appropriate location to add in the free list according to the starting address of blocks, then check if it needs to coalesce with the previous and/or the next block in the free list, and finally add the newly free block into by adding or replacing according to the coalesce cases.
-add the newly freed region to the free list
 
 
-Results (runtime, fragmentation)
+Results & Analysis
+
+The performance results of my malloc and free implementations with respect to different allocation policies are shown as below. Two metrics are measured, runtime and fragmentation ratio. Runtime can be used to stand for time efficiency while fragmentation can show the memory utilization efficiency. Lower fragmentation may reveal a better memory utilization since it shows the less space is free.
 
 First fit:
 	small	equal	large
@@ -45,10 +43,9 @@ Best fit:
 Time (s)	1.812324	21.943748	45.150834
 Fragmentation 	0.022104	0.450011	0.041815
 
+We can see that when it works with allocations of random size with small random range allocations, best fit malloc will run faster and have a better space utilization than first fit. While for 
 
-
-Analysis
-
+It is obvious that both runtime and fragmentation of first fit and best fit policies for equal size allocations have quite similar values. It might reveal that they behave almost the same. Actually, they do behave basically the same when all the allocations are the same size. For the best fit malloc, when it finds a free block with the same size to the required size, it will directly allocate that block and stop searching the left list, which is a kind of first fit behavior.
 
 Recommendations
 
