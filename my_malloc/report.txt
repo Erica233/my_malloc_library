@@ -16,18 +16,21 @@ Recommendations
 
 Implementation description – different allocation policies
 
-I used a doubly linked list to store the list of free memory regions, which is ordered by their memory addresses. To store all the necessary header information of a memory block, I created a structure called metadata_t, which includes a flag variable “available” to track whether this block is free or occupied, “size” to stands for the usable size of this block to store data, and two pointers to track the information of the previous and the next block. A trick I used here is that I used two dummy nodes, which are allocated blocks with size 0, to represent the head and the tail node, so that I do not need to handle any special cases when searching the list or adding nodes to or removing nodes from the list. 
-
-Malloc and free are the two main parts of memory allocation. In malloc part, my function will search through the free list to check if there is any available block to store the requested size. If there is at least one available and fitted block, then this block will be allocated. Otherwise, it will use the sbrk() system call to expand the heap area. An important case that I took into consideration is that if the ideal free block is larger than required size, it will split the block into two separate blocks. The first part will be allocated, and the left part will become a new free block and replace the original free block into the free list. However, if the left part is not large enough to store the metadata of a block, then this free block will be directly allocated even if it has larger space than required.
-
-When implementing malloc function, I used two different memory allocation policies, first fit and best fit. For first fit malloc,  I searched the free list from the beginning, and once found a free block that has enough space to fit the required size, it will jump out of the loop and return that free block so that it does not have to search the remaining list, which would be a waste of runtime. While for best fit malloc, I added two extra variables, one is a pointer to store the fit block 
-
 
 metadata
 	
 
 data
 (Figure 1. A memory block)
+
+I used a doubly linked list to store the list of free memory regions, which is ordered by their memory addresses. To store all the necessary header information of a memory block, I created a structure called metadata_t, which includes a flag variable “available” to track whether this block is free or occupied, “size” to stands for the usable size of this block to store data, and two pointers to track the information of the previous and the next block. A trick I used here is that I used two dummy nodes, which are allocated blocks with size 0, to represent the head and the tail node, so that I do not need to handle any special cases when searching the list or adding nodes to or removing nodes from the list. 
+
+Malloc and free are the two main parts of memory allocation. In malloc part, my function will search through the free list to check if there is any available block to store the requested size. If there is at least one available and fitted block, then this block will be allocated. Otherwise, it will use the sbrk() system call to expand the heap area. An important case that I took into consideration is that if the ideal free block is larger than required size, it will split the block into two separate blocks. The first part will be allocated, and the left part will become a new free block and replace the original free block into the free list. However, if the left part is not large enough to store the metadata of a block, then this free block will be directly allocated even if it has larger space than required. 
+
+When implementing malloc function, I used two different memory allocation policies, first fit and best fit. For first fit malloc, I searched the free list from the beginning, and once found a free block that has enough space to fit the required size, it will jump out of the loop and return that free block so that it does not have to search the remaining list, which would be a waste of runtime. While for best fit malloc, I added two extra variables, one is a pointer to track the best fit block with the smallest size and the other is to store the available size of that block. Besides, it will iterate through all the free blocks, since we need to pick the smallest size from all the fitted blocks. However, when the size of current block is equal to the required size, the function will directly jump out of the loop, and allocate that block.
+
+In free part, my function will firstly find the appropriate location to add in the free list according to the starting address of blocks, then check if it needs to coalesce with the previous and/or the next block in the free list, and finally add the newly free block into by adding or replacing according to the coalesce cases.
+add the newly freed region to the free list
 
 
 Results (runtime, fragmentation)
