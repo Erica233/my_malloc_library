@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <limits.h>
+#include <pthread.h>
 #include "my_malloc.h"
 
 #define METADATA_SIZE sizeof(metadata_t)
