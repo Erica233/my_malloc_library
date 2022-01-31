@@ -13,7 +13,6 @@ pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 //Thread Safe malloc/free: locking version
 void *ts_malloc_lock(size_t size) {
-
     if (size <= 0) {
         return NULL;
     }
@@ -22,9 +21,10 @@ void *ts_malloc_lock(size_t size) {
     pthread_mutex_unlock(&lock);
     return new + 1;
 }
+
 void ts_free_lock(void *ptr) {
     pthread_mutex_lock(&lock);
-    bf_free(ptr);
+    my_free(ptr);
     pthread_mutex_unlock(&lock);
 }
 //Thread Safe malloc/free: non-locking version
@@ -32,7 +32,7 @@ void *ts_malloc_nolock(size_t size) {
     bf_malloc(size);
 }
 void ts_free_nolock(void *ptr) {
-    bf_free(ptr);
+    my_free(ptr);
 }
 
 // initialize the free list (both head and tail are dummies)
