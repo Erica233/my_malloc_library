@@ -13,9 +13,9 @@ pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 //Thread Safe malloc/free: locking version
 void *ts_malloc_lock(size_t size) {
-    pthread_mutex_lock(&lock);
+
     bf_malloc(size);
-    pthread_mutex_unlock(&lock);
+
 }
 void ts_free_lock(void *ptr) {
     pthread_mutex_lock(&lock);
@@ -92,7 +92,9 @@ void *bf_malloc(size_t size) {
     if (size <= 0) {
         return NULL;
     }
+    pthread_mutex_lock(&lock);
     metadata_t * new = my_malloc(size, 1);
+    pthread_mutex_unlock(&lock);
     return new + 1;
 }
 
