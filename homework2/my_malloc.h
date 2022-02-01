@@ -11,7 +11,7 @@ struct metadata {
 
 metadata_t * expand_heap(size_t size, int tls);
 //metadata_t * find_ff(size_t size);
-metadata_t * find_bf(size_t size, metadata_t ** head);
+metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail);
 void split(metadata_t * usable, size_t size);
 void *my_malloc(size_t size, int alloc_policy,  metadata_t ** head, metadata_t ** tail, int tls);
 //void *ff_malloc(size_t size);

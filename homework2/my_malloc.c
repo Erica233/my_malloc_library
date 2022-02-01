@@ -45,8 +45,8 @@ void ts_free_nolock(void *ptr) {
 void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
     *head = expand_heap(0, tls);
     *tail = expand_heap(0, tls);
-    *head->next = tail;
-    *tail->prev = head;
+    (*head)->next = tail;
+    (*tail)->prev = head;
 
     heap_size += METADATA_SIZE * 2;
 }
@@ -66,7 +66,7 @@ metadata_t * find_ff(size_t size, metadata_t ** head) {
  */
 
 // find the best fit blcok in the free list
-metadata_t * find_bf(size_t size, metadata_t ** head) {
+metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail) {
     int j = 0;
     metadata_t * best_free = NULL;
     unsigned long long smallest_size = ULLONG_MAX;
@@ -86,7 +86,7 @@ metadata_t * find_bf(size_t size, metadata_t ** head) {
         temp = temp->next;
     }
     if (best_free == NULL) {
-        best_free = tail;
+        best_free = *tail;
     }
     return best_free;
 }
@@ -116,7 +116,7 @@ void *bf_malloc(size_t size) {
 // alloc_policy == 1: best fit malloc
 void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t ** tail, int tls) {
     if (*head == NULL) {
-        make_empty_list(*head, tail, tls);
+        make_empty_list(*head, *tail, tls);
     }
 
     // find the best fit available block
@@ -127,7 +127,7 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
     }
     //best fit malloc
     if (alloc_policy == 1) {
-        usable = find_bf(size, *head);
+        usable = find_bf(size, *head, *tail);
     }
 
     //found available block
@@ -153,12 +153,13 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
 
 // expand the heap area
 metadata_t * expand_heap(size_t size, int tls) {
+    metadata_t * new_meta;
     if (tls == 1) {
         pthread_mutex_lock(&lock);
-        metadata_t * new_meta = sbrk(size + METADATA_SIZE);
+        new_meta = sbrk(size + METADATA_SIZE);
         pthread_mutex_unlock(&lock);
     } else {
-        metadata_t * new_meta = sbrk(size + METADATA_SIZE);
+        new_meta = sbrk(size + METADATA_SIZE);
     }
     if (new_meta == (void *) -1) {
         //printf("sbrk failed\n");
