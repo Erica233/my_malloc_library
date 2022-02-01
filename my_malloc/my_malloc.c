@@ -197,8 +197,8 @@ void my_free(void *ptr) {
     if (ptr == NULL) {
         return;
     }
-    assert(ptr >= METADATA_SIZE)
-    assert(ptr > METADATA_SIZE)
+    assert(ptr >= METADATA_SIZE);
+    assert(ptr > METADATA_SIZE);
     metadata_t *new_free = (metadata_t *) ptr - 1;
     new_free->available = 1;
     new_free->prev = NULL;
