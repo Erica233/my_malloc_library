@@ -127,7 +127,7 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
     }
     //best fit malloc
     if (alloc_policy == 1) {
-        usable = find_bf(size, *head, *tail);
+        usable = find_bf(size, head, tail);
     }
 
     //found available block
