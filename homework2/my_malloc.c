@@ -13,7 +13,7 @@ metadata_t * tail_lock = NULL;
 __thread metadata_t * head_nolock = NULL;
 __thread metadata_t * tail_nolock = NULL;
 
-//Thread Safe malloc/free: locking version
+//Thread Safe malloc: locking version
 void *ts_malloc_lock(size_t size) {
     if (size <= 0) {
         return NULL;
@@ -24,6 +24,7 @@ void *ts_malloc_lock(size_t size) {
     return new + 1;
 }
 
+//Thread Safe free: locking version
 void ts_free_lock(void *ptr) {
     pthread_mutex_lock(&lock);
     my_free(ptr, &head_lock, &tail_lock, 0);
@@ -39,6 +40,7 @@ void *ts_malloc_nolock(size_t size) {
     return new + 1;
 }
 
+//Thread Safe free: non-locking version
 void ts_free_nolock(void *ptr) {
     my_free(ptr, &head_nolock, &tail_nolock, 1);
 }
@@ -47,8 +49,6 @@ void ts_free_nolock(void *ptr) {
 void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
     *head = expand_heap(0, tls);
     *tail = expand_heap(0, tls);
-    assert((*head) != NULL);
-    assert((*tail) != NULL);
     (*head)->next = *tail;
     (*tail)->prev = *head;
 }
@@ -79,7 +79,9 @@ metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail) {
     return best_free;
 }
 
-// malloc memory according to different memory allocation policies:
+// malloc memory according to lock or nolock:
+// tls == 0: lock version malloc
+// tls == 1: no lock version malloc
 void *my_malloc(size_t size, metadata_t ** head, metadata_t ** tail, int tls) {
     if (*head == NULL) {
         make_empty_list(head, tail, tls);
@@ -188,7 +190,6 @@ void my_free(void *ptr, metadata_t ** head, metadata_t ** tail, int tls) {
         return;
     }
     metadata_t *new_free = (metadata_t *) ptr - 1;
-
     new_free->available = 1;
     new_free->prev = NULL;
     new_free->next = NULL;
