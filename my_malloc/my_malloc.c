@@ -122,6 +122,9 @@ metadata_t * expand_heap(size_t size) {
         //printf("sbrk failed\n");
         return NULL;
     }
+    if (new_meta == (void *) 0) {
+        printf("sbrk malloc 0\n");
+    }
     new_meta->available = 0;
     new_meta->size = size;
     new_meta->prev = NULL;
@@ -198,7 +201,10 @@ void my_free(void *ptr) {
         return;
     }
     assert(ptr >= METADATA_SIZE);
-    assert(ptr > METADATA_SIZE);
+    if (ptr == METADATA_SIZE) {
+        metadata_t *new_free1 = (metadata_t *) ptr - 1;
+        printf("avail: %d\n", new_free1->available);
+    }
     metadata_t *new_free = (metadata_t *) ptr - 1;
     new_free->available = 1;
     new_free->prev = NULL;
