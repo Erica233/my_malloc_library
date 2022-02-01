@@ -27,7 +27,7 @@ void *ts_malloc_lock(size_t size) {
 
 void ts_free_lock(void *ptr) {
     pthread_mutex_lock(&lock);
-    my_free(ptr, &head_lock, &tail_lock);
+    my_free(ptr, &head_lock, &tail_lock, 0);
     pthread_mutex_unlock(&lock);
 }
 //Thread Safe malloc/free: non-locking version
@@ -39,7 +39,7 @@ void *ts_malloc_nolock(size_t size) {
     return new + 1;
 }
 void ts_free_nolock(void *ptr) {
-    my_free(ptr, &head_nolock, &tail_nolock);
+    my_free(ptr, &head_nolock, &tail_nolock, 1);
 }
 
 // initialize the free list (both head and tail are dummies)
@@ -242,7 +242,7 @@ void bf_free(void *ptr) {
 }
  */
 
-void my_free(void *ptr, metadata_t ** head, metadata_t ** tail) {
+void my_free(void *ptr, metadata_t ** head, metadata_t ** tail, int tls) {
     if (ptr == NULL) {
         return;
     }
