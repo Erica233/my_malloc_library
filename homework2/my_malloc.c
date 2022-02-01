@@ -10,6 +10,8 @@ metadata_t *tail = NULL;
 size_t heap_size = 0;
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+__thread metadata_t *nolock_head = NULL;
+__thread metadata_t *nolock_tail = NULL;
 
 //Thread Safe malloc/free: locking version
 void *ts_malloc_lock(size_t size) {
@@ -29,7 +31,11 @@ void ts_free_lock(void *ptr) {
 }
 //Thread Safe malloc/free: non-locking version
 void *ts_malloc_nolock(size_t size) {
-    bf_malloc(size);
+    if (size <= 0) {
+        return NULL;
+    }
+    metadata_t * new = my_malloc(size, 1);
+    return new + 1;
 }
 void ts_free_nolock(void *ptr) {
     my_free(ptr);
