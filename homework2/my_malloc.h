@@ -9,6 +9,7 @@ struct metadata {
     metadata_t *prev;
 };
 
+void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls);
 metadata_t * expand_heap(size_t size, int tls);
 //metadata_t * find_ff(size_t size);
 metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail);
