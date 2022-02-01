@@ -26,7 +26,7 @@ void *ts_malloc_lock(size_t size) {
 
 void ts_free_lock(void *ptr) {
     pthread_mutex_lock(&lock);
-    my_free(ptr, &head_lock, &tail_lock);
+    my_free(ptr, &head_lock);
     pthread_mutex_unlock(&lock);
 }
 //Thread Safe malloc/free: non-locking version
@@ -38,7 +38,7 @@ void *ts_malloc_nolock(size_t size) {
     return new + 1;
 }
 void ts_free_nolock(void *ptr) {
-    my_free(ptr, &head_nolock, &tail_nolock);
+    my_free(ptr, &head_nolock);
 }
 
 // initialize the free list (both head and tail are dummies)
@@ -122,13 +122,13 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
     // find the best fit available block
     metadata_t * usable;
     //first fit malloc
-    if (alloc_policy == 0) {
+    //if (alloc_policy == 0) {
         //usable = find_ff(size, head);
-    }
+    //}
     //best fit malloc
-    if (alloc_policy == 1) {
+    //if (alloc_policy == 1) {
         usable = find_bf(size, head, tail);
-    }
+    //}
 
     //found available block
     if (usable->size != 0) {
@@ -238,7 +238,7 @@ void bf_free(void *ptr) {
 }
  */
 
-void my_free(void *ptr, metadata_t ** head, metadata_t ** tail) {
+void my_free(void *ptr, metadata_t ** head) {
     if (ptr == NULL) {
         return;
     }
