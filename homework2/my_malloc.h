@@ -19,7 +19,7 @@ void *my_malloc(size_t size, int alloc_policy,  metadata_t ** head, metadata_t *
 //void *bf_malloc(size_t size);
 
 void coalesce(metadata_t * new_free, metadata_t * temp);
-void my_free(void *ptr, metadata_t ** head);
+void my_free(void *ptr, metadata_t ** head, metadata_t ** tail);
 //void ff_free(void *ptr);
 //void bf_free(void *ptr);
 
