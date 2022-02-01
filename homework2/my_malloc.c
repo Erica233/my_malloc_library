@@ -5,13 +5,13 @@
 #include "my_malloc.h"
 
 #define METADATA_SIZE sizeof(metadata_t)
-metadata_t *head_lock = NULL;
-metadata_t *tail_lock = NULL;
+metadata_t * head_lock = NULL;
+metadata_t * tail_lock = NULL;
 size_t heap_size = 0;
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-__thread metadata_t *head_nolock = NULL;
-__thread metadata_t *tail_nolock = NULL;
+__thread metadata_t * head_nolock = NULL;
+__thread metadata_t * tail_nolock = NULL;
 
 //Thread Safe malloc/free: locking version
 void *ts_malloc_lock(size_t size) {

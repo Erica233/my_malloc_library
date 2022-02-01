@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <limits.h>
+#include <assert.h>
 #include "my_malloc.h"
 
 #define METADATA_SIZE sizeof(metadata_t)
@@ -196,6 +197,8 @@ void my_free(void *ptr) {
     if (ptr == NULL) {
         return;
     }
+    assert(ptr >= METADATA_SIZE)
+    assert(ptr > METADATA_SIZE)
     metadata_t *new_free = (metadata_t *) ptr - 1;
     new_free->available = 1;
     new_free->prev = NULL;
