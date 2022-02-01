@@ -116,7 +116,7 @@ void *bf_malloc(size_t size) {
 // alloc_policy == 1: best fit malloc
 void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t ** tail, int tls) {
     if (*head == NULL) {
-        make_empty_list(*head, *tail, tls);
+        make_empty_list(head, tail, tls);
     }
 
     // find the best fit available block
