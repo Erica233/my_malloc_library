@@ -43,10 +43,10 @@ void ts_free_nolock(void *ptr) {
 
 // initialize the free list (both head and tail are dummies)
 void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
-    head = expand_heap(0, tls);
-    tail = expand_heap(0, tls);
-    head->next = tail;
-    tail->prev = head;
+    *head = expand_heap(0, tls);
+    *tail = expand_heap(0, tls);
+    *head->next = tail;
+    *tail->prev = head;
 
     heap_size += METADATA_SIZE * 2;
 }
@@ -70,7 +70,7 @@ metadata_t * find_bf(size_t size, metadata_t ** head) {
     int j = 0;
     metadata_t * best_free = NULL;
     unsigned long long smallest_size = ULLONG_MAX;
-    metadata_t *temp = head->next;
+    metadata_t *temp = (*head)->next;
     while (temp->size != 0) {
         if (size <= temp->size) {
             if (temp->size < smallest_size) {
@@ -115,8 +115,8 @@ void *bf_malloc(size_t size) {
 // alloc_policy == 0: first fit malloc
 // alloc_policy == 1: best fit malloc
 void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t ** tail, int tls) {
-    if (head == NULL) {
-        make_empty_list(head, tail, tls);
+    if (*head == NULL) {
+        make_empty_list(*head, tail, tls);
     }
 
     // find the best fit available block
@@ -127,7 +127,7 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
     }
     //best fit malloc
     if (alloc_policy == 1) {
-        usable = find_bf(size, head);
+        usable = find_bf(size, *head);
     }
 
     //found available block
@@ -247,7 +247,7 @@ void my_free(void *ptr, metadata_t ** head, metadata_t ** tail) {
     new_free->next = NULL;
 
     // find the location of new_free to add to free_list
-    metadata_t *temp = head->next;
+    metadata_t *temp = (*head)->next;
     while (temp->size != 0) {
         if (new_free < temp) {
             break;
