@@ -45,8 +45,8 @@ void ts_free_nolock(void *ptr) {
 void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
     *head = expand_heap(0, tls);
     *tail = expand_heap(0, tls);
-    (*head)->next = tail;
-    (*tail)->prev = head;
+    (*head)->next = *tail;
+    (*tail)->prev = *head;
 
     heap_size += METADATA_SIZE * 2;
 }
