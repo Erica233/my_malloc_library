@@ -6,11 +6,10 @@
 #include <assert.h>
 
 #define METADATA_SIZE sizeof(metadata_t)
-metadata_t * head_lock = NULL;
-metadata_t * tail_lock = NULL;
-size_t heap_size = 0;
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+metadata_t * head_lock = NULL;
+metadata_t * tail_lock = NULL;
 __thread metadata_t * head_nolock = NULL;
 __thread metadata_t * tail_nolock = NULL;
 
@@ -20,7 +19,7 @@ void *ts_malloc_lock(size_t size) {
         return NULL;
     }
     pthread_mutex_lock(&lock);
-    metadata_t * new = my_malloc(size, 1, &head_lock, &tail_lock, 0);
+    metadata_t * new = my_malloc(size, &head_lock, &tail_lock, 0);
     pthread_mutex_unlock(&lock);
     return new + 1;
 }
@@ -30,14 +29,16 @@ void ts_free_lock(void *ptr) {
     my_free(ptr, &head_lock, &tail_lock, 0);
     pthread_mutex_unlock(&lock);
 }
+
 //Thread Safe malloc/free: non-locking version
 void *ts_malloc_nolock(size_t size) {
     if (size <= 0) {
         return NULL;
     }
-    metadata_t * new = my_malloc(size, 1, &head_nolock, &tail_nolock, 1);
+    metadata_t * new = my_malloc(size, &head_nolock, &tail_nolock, 1);
     return new + 1;
 }
+
 void ts_free_nolock(void *ptr) {
     my_free(ptr, &head_nolock, &tail_nolock, 1);
 }
@@ -50,26 +51,9 @@ void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
     assert((*tail) != NULL);
     (*head)->next = *tail;
     (*tail)->prev = *head;
-
-
-    heap_size += METADATA_SIZE * 2;
 }
 
-/*
-// find the first fit block in the free list
-metadata_t * find_ff(size_t size, metadata_t ** head) {
-    metadata_t *temp = head->next;
-    while (temp->size != 0) {
-        if (size <= temp->size) {
-            break;
-        }
-        temp = temp->next;
-    }
-    return temp;
-}
- */
-
-// find the best fit blcok in the free list
+// find the best fit block in the free list
 metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail) {
     int j = 0;
     metadata_t * best_free = NULL;
@@ -95,44 +79,14 @@ metadata_t * find_bf(size_t size, metadata_t ** head, metadata_t ** tail) {
     return best_free;
 }
 
-/*
-// First Fit malloc
-void *ff_malloc(size_t size) {
-    if (size <= 0) {
-        return NULL;
-    }
-    metadata_t * new = my_malloc(size, 0, &head, &tail);
-    return new + 1;
-}
-
-// Best Fit malloc
-void *bf_malloc(size_t size) {
-    if (size <= 0) {
-        return NULL;
-    }
-    metadata_t * new = my_malloc(size, 1, &head, &tail);
-    return new + 1;
-}
- */
-
 // malloc memory according to different memory allocation policies:
-// alloc_policy == 0: first fit malloc
-// alloc_policy == 1: best fit malloc
-void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t ** tail, int tls) {
+void *my_malloc(size_t size, metadata_t ** head, metadata_t ** tail, int tls) {
     if (*head == NULL) {
         make_empty_list(head, tail, tls);
     }
 
     // find the best fit available block
-    metadata_t * usable;
-    //first fit malloc
-    //if (alloc_policy == 0) {
-        //usable = find_ff(size, head);
-    //}
-    //best fit malloc
-    //if (alloc_policy == 1) {
-        usable = find_bf(size, head, tail);
-    //}
+    metadata_t * usable = find_bf(size, head, tail);
 
     //found available block
     if (usable->size != 0) {
@@ -150,7 +104,6 @@ void *my_malloc(size_t size, int alloc_policy, metadata_t ** head, metadata_t **
     } else {
         // if not found available block, expand the heap
         metadata_t * new_meta = expand_heap(size, tls);
-        heap_size = heap_size + METADATA_SIZE + size;
         return new_meta;
     }
 }
@@ -229,18 +182,6 @@ void coalesce(metadata_t * new_free, metadata_t * temp) {
         temp->prev = new_free;
     }
 }
-
-/*
-// First Fit free
-void ff_free(void *ptr) {
-    my_free(ptr);
-}
-
-// Best Fit free
-void bf_free(void *ptr) {
-    my_free(ptr);
-}
- */
 
 void my_free(void *ptr, metadata_t ** head, metadata_t ** tail, int tls) {
     if (ptr == NULL) {
