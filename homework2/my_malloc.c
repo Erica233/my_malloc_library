@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <pthread.h>
 #include "my_malloc.h"
+#include <assert.h>
 
 #define METADATA_SIZE sizeof(metadata_t)
 metadata_t * head_lock = NULL;
@@ -45,8 +46,11 @@ void ts_free_nolock(void *ptr) {
 void make_empty_list(metadata_t ** head, metadata_t ** tail, int tls) {
     *head = expand_heap(0, tls);
     *tail = expand_heap(0, tls);
+    assert((*head) != NULL);
+    assert((*tail) != NULL);
     (*head)->next = *tail;
     (*tail)->prev = *head;
+
 
     heap_size += METADATA_SIZE * 2;
 }
@@ -243,6 +247,7 @@ void my_free(void *ptr, metadata_t ** head) {
         return;
     }
     metadata_t *new_free = (metadata_t *) ptr - 1;
+
     new_free->available = 1;
     new_free->prev = NULL;
     new_free->next = NULL;
