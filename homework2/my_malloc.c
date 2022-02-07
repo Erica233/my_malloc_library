@@ -3,7 +3,6 @@
 #include <limits.h>
 #include <pthread.h>
 #include "my_malloc.h"
-#include <assert.h>
 
 #define METADATA_SIZE sizeof(metadata_t)
 
