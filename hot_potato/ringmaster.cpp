@@ -4,6 +4,8 @@
 #include <netdb.h>
 #include <unistd.h>
 
+#include "potato.h"
+
 #define BACK_LOG 100
 
 int main(int argc, char **argv) {
@@ -12,8 +14,16 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     char * port = argv[1];
-    //int num_players = atoi(argv[2]);
-    //int num_hops = atoi(argv[3]);
+    int num_players = atoi(argv[2]);
+    if (num_players <= 1) {
+        std::cerr << "Invalid num_players\n";
+        return EXIT_FAILURE;
+    }
+    int num_hops = atoi(argv[3]);
+    if (num_hops < 0 || num_hops > 512) {
+        std::cerr << "Invalid num_hops\n";
+        return EXIT_FAILURE;
+    }
 
     char * hostname = NULL;
 
@@ -70,6 +80,7 @@ int main(int argc, char **argv) {
     std::cout << "Received: " << buffer << std::endl;
 
     //create potato object
+    Potato potato(num_hops);
     //start game
     //report results
     //shut down the game

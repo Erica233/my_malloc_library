@@ -4,6 +4,8 @@
 class Potato {
 private:
     int num_hops;
+public:
+    explicit Potato(int n): num_hops(n) {}
 
 };
 
