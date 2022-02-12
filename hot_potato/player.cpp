@@ -10,7 +10,8 @@ int main(int argc, char **argv) {
         std::cerr << "Usage: program <machine_name> <port_num>\n";
         return EXIT_FAILURE;
     }
-    char machine_name = argv[1];
+    //char * machine_name = argv[1];
+    char * hostname = argv[1];
     char * port = argv[2];
 
     struct addrinfo host_info;
@@ -39,7 +40,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     //write
-    char * message = "hi there!";
+    const char * message = "hi there!";
     send(socket_fd, message, strlen(message), 0);
     //read
 
