@@ -3,8 +3,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
-#define BACK_LOG 100
 
+#define BACK_LOG 100
 
 int main(int argc, char **argv) {
     if (argc != 4) {
@@ -24,8 +24,7 @@ int main(int argc, char **argv) {
     host_info.ai_socktype = SOCK_STREAM;
     host_info.ai_flags = AI_PASSIVE;
 
-    int status;
-    status = getaddrinfo(hostname, port, &host_info, &host_info_list);
+    int status = getaddrinfo(hostname, port, &host_info, &host_info_list);
     if (status != 0) {
         std::cerr << "Error: getaddrinfo() failed" << gai_strerror(status);
         std::cerr << hostname << "," << port << std::endl;
@@ -44,15 +43,13 @@ int main(int argc, char **argv) {
         perror("setsockopt()");
         exit(EXIT_FAILURE);
     }
-    status = bind(socket_fd, host_info_list->ai_addr, host_info_list->ai_addrlen);
-    if (status == -1) {
+    if (bind(socket_fd, host_info_list->ai_addr, host_info_list->ai_addrlen) == -1) {
         std::cerr << "Error: bind() failed\n";
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
     }
     //listen
-    status = listen(socket_fd, BACK_LOG);
-    if (status == -1) {
+    if (listen(socket_fd, BACK_LOG) == -1) {
         std::cerr << "Error: listen() failed\n";
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
