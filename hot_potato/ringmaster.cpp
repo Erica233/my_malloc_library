@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     char * port = argv[1];
-    int num_players = argv[2];
-    int num_hops = argv[3];
+    //int num_players = atoi(argv[2]);
+    //int num_hops = atoi(argv[3]);
 
     char * hostname = NULL;
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     }
     //bind
     int yes = 1;
-    if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &yes. sizeof(int)) == -1) {
+    if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
         perror("setsockopt()");
         exit(EXIT_FAILURE);
     }
@@ -74,6 +74,6 @@ int main(int argc, char **argv) {
     //report results
     //shut down the game
     freeaddrinfo(host_info_list);
-    clock(socket_fd);
+    close(socket_fd);
     return EXIT_SUCCESS;
 }
