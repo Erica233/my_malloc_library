@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
         std::cerr << "Invalid num_hops\n";
         return EXIT_FAILURE;
     }
+    std::cout << "Potato Ringmaster\nPlayers = " << num_players << "Hops = " << num_hops << std::endl;
 
     char * hostname = NULL;
 
