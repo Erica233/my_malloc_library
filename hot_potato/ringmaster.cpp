@@ -3,6 +3,9 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
 
 #include "potato.h"
 
@@ -24,7 +27,9 @@ int main(int argc, char **argv) {
         std::cerr << "Invalid num_hops\n";
         return EXIT_FAILURE;
     }
-    std::cout << "Potato Ringmaster\nPlayers = " << num_players << "Hops = " << num_hops << std::endl;
+    std::cout << "Potato Ringmaster\n";
+    std::cout << "Players = " << num_players << std::endl;
+    std::cout << "Hops = " << num_hops << std::endl;
 
     char * hostname = NULL;
 
@@ -65,14 +70,32 @@ int main(int argc, char **argv) {
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
     }
-    //accept
-    struct sockaddr_storage socket_addr;
-    socklen_t socket_addr_len = sizeof(socket_addr);
-    int client_connect_fd = accept(socket_fd, (struct sockaddr *)&socket_addr, &socket_addr_len);
-    if (client_connect_fd == -1) {
-        std::cerr << "Error: accept() failed\n";
-        return EXIT_FAILURE;
+
+    //build connection with each player
+    std::vector<string> ips;
+    std::vector<string> ports;
+    std::vector<int> fds;
+    for (int i = 0; i < num_players; i++) {
+        //accept
+        struct sockaddr_storage socket_addr;
+        socklen_t socket_addr_len = sizeof(socket_addr);
+        int client_connect_fd = accept(socket_fd, (struct sockaddr *)&socket_addr, &socket_addr_len);
+        if (client_connect_fd == -1) {
+            std::cerr << "Error: accept() failed\n";
+            return EXIT_FAILURE;
+        }
+        struct sockaddr_in * addr = (struct sockaddr_in *) &socket_addr;
+        std::string ip = inet_ntoa(addr->sin_addr);
+
+        send(client_connect_fd, &i, sizeof(i), 0);
+        send(client_connect_fd, &num_players, sizeof(num_players), 0);
+        recv(client_connect_fd, &ports[i], sizeof(ports[i]), 0);
+        std::cout << "Player " << i << " is ready to play\n";
+        std::cout << "i = " << i;
+        std::cout << "\nnum_players = " << num_players;
+        std::cout << "\nport = " << ports[i] << std::endl;
     }
+
     //read
     char buffer[512];
     recv(client_connect_fd, buffer, 9, 0);
