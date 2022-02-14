@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 
     //read
     char buffer[512];
-    recv(client_connect_fd, buffer, 9, 0);
+    //recv(client_connect_fd, buffer, 9, 0);
     buffer[9] = 0;
     //write
     std::cout << "Received: " << buffer << std::endl;
