@@ -10,7 +10,6 @@ int main(int argc, char **argv) {
         std::cerr << "Usage: program <machine_name> <port_num>\n";
         return EXIT_FAILURE;
     }
-    //char * machine_name = argv[1];
     char * hostname = argv[1];
     char * port = argv[2];
 
