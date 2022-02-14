@@ -89,13 +89,14 @@ int main(int argc, char **argv) {
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
-        recv(client_connect_fd, &(ports[i]), sizeof(ports[i]), 0);
+        std::string port;
+        recv(client_connect_fd, &port, sizeof(ports[i]), 0);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "\nnum_players = " << num_players;
         //std::cout << "\nip = " << *ip;
-        std::cout << "\nport = " << ports[i] << std::endl;
+        std::cout << "\nport = " << port << std::endl;
         //ips.push_back(*ip);
-        ports.push_back(ports[i]);
+        ports.push_back(port);
         fds.push_back(client_connect_fd);
     }
 
