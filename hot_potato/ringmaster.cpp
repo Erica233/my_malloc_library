@@ -85,17 +85,17 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
         struct sockaddr_in * addr = (struct sockaddr_in *) &socket_addr;
-        //std::string * ip = inet_ntoa(addr->sin_addr);
+        std::string * ip = inet_ntoa(addr->sin_addr);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
         int port;
-        recv(client_connect_fd, &port, sizeof(ports[i]), 0);
+        recv(client_connect_fd, &port, sizeof(port), 0);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "\nnum_players = " << num_players;
-        //std::cout << "\nip = " << *ip;
+        std::cout << "\nip = " << *ip;
         std::cout << "\nport = " << port << std::endl;
-        //ips.push_back(*ip);
+        ips.push_back(*ip);
         ports.push_back(port);
         fds.push_back(client_connect_fd);
     }

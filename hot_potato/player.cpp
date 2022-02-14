@@ -46,6 +46,7 @@ int main(int argc, char **argv) {
     std::cout << "id = " << id;
     std::cout << "\nnum_players = " << num_players;
     std::cout << "\nport = " << port << std::endl;
+
     //write
     const char * message = "hi there!";
     send(socket_fd, message, strlen(message), 0);
