@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 
     //build connection with each player
     std::vector<std::string> ips;
-    std::vector<int> ports;
+    std::vector<std::string> ports;
     std::vector<int> fds;
     for (int i = 0; i < num_players; i++) {
         //accept
