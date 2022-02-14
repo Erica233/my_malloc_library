@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 
     //build connection with each player
     std::vector<std::string> ips;
-    std::vector<std::string> ports;
+    std::vector<int> ports;
     std::vector<int> fds;
     for (int i = 0; i < num_players; i++) {
         //accept
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
-        std::string port;
+        int port;
         recv(client_connect_fd, &port, sizeof(ports[i]), 0);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "\nnum_players = " << num_players;
