@@ -39,6 +39,14 @@ int main(int argc, char **argv) {
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
     }
+
+    int id;
+    int num_players;
+    recv(socket_fd, &id, sizeof(id), 0);
+    recv(socket_fd, &num_players, sizeof(num_players), 0);
+    std::cout << "id = " << id;
+    std::cout << "\nnum_players = " << num_players;
+    std::cout << "\nport = " << port << std::endl;
     //write
     const char * message = "hi there!";
     send(socket_fd, message, strlen(message), 0);
