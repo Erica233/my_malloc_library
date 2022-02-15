@@ -26,6 +26,12 @@ int main(int argc, char **argv) {
 
     //work as a server
     int as_server_fd = create_server("0");
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    socklen_t len = sizeof(addr);
+    getsockname(as_server_fd, (struct sockaddr *)&addr, &len);
+    unsigned int port_num = ntohs(addr.sin_port);
+    std::cout << "port_num: " << port_num;
     //send(master_fd, )
 
 
