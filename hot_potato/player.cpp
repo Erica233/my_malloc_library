@@ -24,9 +24,9 @@ int main(int argc, char **argv) {
     std::cout << "\nnum_players = " << num_players;
     std::cout << "\nport = " << port << std::endl;
 
-
-    //create server socket and send port number
-
+    //work as a server
+    int as_server_fd = create_server("0");
+    //send(master_fd, )
 
 
 

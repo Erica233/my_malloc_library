@@ -1,3 +1,12 @@
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
+
 #define BACK_LOG 100
 
 int create_server(const char * port) {
