@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
         int port;
         recv(client_connect_fd, &port, sizeof(port), 0);
         std::cout << "Player " << i << " is ready to play\n";
-        std::cout << "\nnum_players = " << num_players;
+        std::cout << "num_players = " << num_players;
         std::cout << "\nport = " << port << std::endl;
         ports.push_back(port);
         fds.push_back(client_connect_fd);
