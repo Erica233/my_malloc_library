@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     getsockname(as_server_fd, (struct sockaddr *)&addr, &len);
     unsigned int port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num;
-    //send(master_fd, )
+    send(socket_fd, &port_num, sizeof(port_num), 0);
 
 
 
