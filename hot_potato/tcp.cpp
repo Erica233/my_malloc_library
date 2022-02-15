@@ -77,6 +77,7 @@ int create_client(const char * port, const char * hostname) {
     if (connect(socket_fd, host_info_list->ai_addr, host_info_list->ai_addrlen) == -1) {
         std::cerr << "Error: connect() failed";
         std::cerr << hostname << "," << port << std::endl;
+        perror("");
         exit(EXIT_FAILURE);
     }
     freeaddrinfo(host_info_list);
