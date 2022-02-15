@@ -4,6 +4,7 @@
 #include <netdb.h>
 #include <unistd.h>
 
+#include "tcp.cpp"
 
 int main(int argc, char **argv) {
     if (argc != 3) {
@@ -29,9 +30,6 @@ int main(int argc, char **argv) {
 
 
 
-
-
-    freeaddrinfo(host_info_list);
     close(socket_fd);
 
     return EXIT_SUCCESS;
