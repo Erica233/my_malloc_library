@@ -64,20 +64,20 @@ int create_client(const char * port, const char * hostname) {
     if (status != 0) {
         std::cerr << "Error: getaddrinfo() failed" << gai_strerror(status);
         std::cerr << hostname << "," << port << std::endl;
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     //socket
     int socket_fd = socket(host_info_list->ai_family, host_info_list->ai_socktype, host_info_list->ai_protocol);
     if (socket_fd == -1) {
         std::cerr << "Error: socket() failed";
         std::cerr << hostname << "," << port << std::endl;
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     //connect
     if (connect(socket_fd, host_info_list->ai_addr, host_info_list->ai_addrlen) == -1) {
         std::cerr << "Error: connect() failed";
         std::cerr << hostname << "," << port << std::endl;
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     freeaddrinfo(host_info_list);
     return socket_fd;
