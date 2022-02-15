@@ -37,7 +37,9 @@ int create_server(const char * port) {
         perror("setsockopt()");
         exit(EXIT_FAILURE);
     }
-    ((struct sockaddr_in * )(host_info_list->ai_addr))->sin_port = 0;
+    if (strcmp(port, "") == 0) {
+        ((struct sockaddr_in *) (host_info_list->ai_addr))->sin_port = 0;
+    }
     if (bind(socket_fd, host_info_list->ai_addr, host_info_list->ai_addrlen) == -1) {
         std::cerr << "Error: bind() failed\n";
         std::cerr << hostname << "," << port << std::endl;
