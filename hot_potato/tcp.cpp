@@ -1,3 +1,4 @@
+#define BACK_LOG 100
 
 int create_server(const char * port) {
     char * hostname = NULL;
@@ -38,6 +39,7 @@ int create_server(const char * port) {
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
     }
+    freeaddrinfo(host_info_list);
     return socket_fd;
 }
 
@@ -67,5 +69,6 @@ int create_client(const char * port, const char * hostname) {
         std::cerr << hostname << "," << port << std::endl;
         return EXIT_FAILURE;
     }
+    freeaddrinfo(host_info_list);
     return socket_fd;
 }

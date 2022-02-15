@@ -10,8 +10,6 @@
 #include "potato.h"
 #include "tcp.cpp"
 
-#define BACK_LOG 100
-
 int main(int argc, char **argv) {
     if (argc != 4) {
         std::cerr << "Usage: program <port_num> <num_players> <num_hops>\n";
@@ -56,7 +54,7 @@ int main(int argc, char **argv) {
         recv(client_connect_fd, &port, sizeof(port), 0);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "\nnum_players = " << num_players;
-        std::cout << "\nip = " << *ip;
+        //std::cout << "\nip = " << *ip;
         std::cout << "\nport = " << port << std::endl;
         //ips.push_back(*ip);
         ports.push_back(port);
@@ -72,7 +70,7 @@ int main(int argc, char **argv) {
     //start game
     //report results
     //shut down the game
-    freeaddrinfo(host_info_list);
+
     close(socket_fd);
     return EXIT_SUCCESS;
 }
