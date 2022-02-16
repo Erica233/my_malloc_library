@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     int socket_fd = create_server(port);
 
     //connect ringmaster and each player
-    std::vector<std::string> ips;
+    std::vector<std::string> hosts;
     std::vector<int> ports;
     std::vector<int> fds;
     for (int i = 0; i < num_players; i++) {
@@ -45,14 +45,13 @@ int main(int argc, char **argv) {
             std::cerr << "Error: accept() failed\n";
             return EXIT_FAILURE;
         }
-        std::cout << "inet_ntoa: " << inet_ntoa(((struct sockaddr_in *)&socket_addr)->sin_addr) << std::endl;
-        //std::string host;
+
         char host_cstr[255];
         inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN);
         std::cout << "host_cstr: " << host_cstr << std::endl;
         std::string host(host_cstr);
         std::cout << "host: " << host << std::endl;
-        ips.push_back(host);
+        hosts.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
@@ -76,7 +75,7 @@ int main(int argc, char **argv) {
         std::cout << "right_id: " << right_id << std::endl;
         std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
-        //send(fds[i], &)
+        send(fds[i], &hosts[right_id], sizeof(hosts[right_id]), 0);
 
     }
 
