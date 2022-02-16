@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
     }
     int right_port;
     recv(socket_fd, &right_port, sizeof(right_port), 0);
+    std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
 
     close(socket_fd);

@@ -45,6 +45,10 @@ int main(int argc, char **argv) {
             std::cerr << "Error: accept() failed\n";
             return EXIT_FAILURE;
         }
+        std::string host;
+        inet_ntop(AF_INET, ((struct sockaddr_in *)&socket_addr)->sin_addr, host, sizeof(host));
+        std::cout << "host: " << host << std::endl;
+        ips.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
@@ -68,7 +72,7 @@ int main(int argc, char **argv) {
         std::cout << "right_id: " << right_id << std::endl;
         std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
-
+        send(fds[i], &)
 
     }
 
