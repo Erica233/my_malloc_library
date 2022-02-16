@@ -53,6 +53,9 @@ int main(int argc, char **argv) {
         std::cout << "host: " << host << std::endl;
         hosts.push_back(host);
         std::cout << "hosts size = " << hosts.size() << std::endl;
+        std::cout << "sizeof(host_cstr): " << sizeof(host_cstr) << std::endl;
+        std::cout << "host.size(): " << host.size() << std::endl;
+
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
