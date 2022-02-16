@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
     }
     int right_port;
     char right_host_cstr[255];
+    memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), 0);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
     std::string right_host(right_host_cstr);
