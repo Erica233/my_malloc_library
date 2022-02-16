@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
     std::cout << "right_host: " << right_host << std::endl;
 
     close(socket_fd);
+    close(as_server_fd);
 
     return EXIT_SUCCESS;
 }
