@@ -34,12 +34,11 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     unsigned int port_num = ntohs(addr.sin_port);
-    std::cout << "port_num: " << port_num;
+    std::cout << "port_num: " << port_num << std::endl;
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
-    create_server();
-    create_client();
-
+    //create_server();
+    //create_client();
 
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
     int left_id = i - 1;
@@ -50,6 +49,9 @@ int main(int argc, char **argv) {
     if (right_id == num_players) {
         right_id = 0;
     }
+    int right_port;
+    recv(socket_fd, &right_port, sizeof(right_port), 0);
+    std::cout << "right_port: " << right_port << std::endl;
 
     close(socket_fd);
 

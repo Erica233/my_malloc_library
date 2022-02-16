@@ -64,6 +64,10 @@ int main(int argc, char **argv) {
         if (right_id == num_players) {
             right_id = 0;
         }
+        int right_port;
+        std::cout << "right_id: " << right_id << std::endl;
+        std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
+        send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
 
 
     }
