@@ -67,6 +67,7 @@ int main(int argc, char **argv) {
         std::cout << "\nport = " << port << std::endl;
         ports.push_back(port);
         fds.push_back(client_connect_fd);
+        std::cout << std::endl;
     }
 
     //ring together players
@@ -81,7 +82,7 @@ int main(int argc, char **argv) {
         std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
         send(fds[i], hosts[right_id].data(), hosts[right_id].size(), 0);
-
+        std::cout << std::endl;
     }
 
 
