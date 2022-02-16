@@ -47,10 +47,12 @@ int main(int argc, char **argv) {
         }
         std::cout << "inet_ntoa: " << inet_ntoa(((struct sockaddr_in *)&socket_addr)->sin_addr) << std::endl;
         //std::string host;
-        char host[255];
-        inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host, INET_ADDRSTRLEN);
+        char host_cstr[255];
+        inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN);
+        std::cout << "host_cstr: " << host_cstr << std::endl;
+        std::string host(host_cstr);
         std::cout << "host: " << host << std::endl;
-        //ips.push_back(host);
+        ips.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
