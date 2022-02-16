@@ -59,6 +59,14 @@ int main(int argc, char **argv) {
     }
 
     //ring together players
+    for (int i = 0; i < num_players; i++) {
+        int right_id = i + 1;
+        if (right_id == num_players) {
+            right_id = 0;
+        }
+
+
+    }
 
 
 
