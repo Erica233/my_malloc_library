@@ -52,7 +52,6 @@ int main(int argc, char **argv) {
         std::string host(host_cstr);
         std::cout << "host: " << host << std::endl;
         hosts.push_back(host);
-        std::cout << "hosts size = " << hosts.size() << std::endl;
         std::cout << "sizeof(host_cstr): " << sizeof(host_cstr) << std::endl;
         std::cout << "host.size(): " << host.size() << std::endl;
 
