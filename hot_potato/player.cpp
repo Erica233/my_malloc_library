@@ -41,11 +41,11 @@ int main(int argc, char **argv) {
     //create_client();
 
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
-    int left_id = i - 1;
+    int left_id = id - 1;
     if (left_id < 0) {
         left_id = num_players;
     }
-    int right_id = i + 1;
+    int right_id = id + 1;
     if (right_id == num_players) {
         right_id = 0;
     }
