@@ -74,6 +74,7 @@ int main(int argc, char **argv) {
         int right_port;
         std::cout << "right_id: " << right_id << std::endl;
         std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
+        std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
         send(fds[i], &hosts[right_id], sizeof(hosts[right_id]), 0);
 
