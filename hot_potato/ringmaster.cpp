@@ -46,9 +46,10 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
         std::cout << "inet_ntoa: " << inet_ntoa(((struct sockaddr_in *)&socket_addr)->sin_addr) << std::endl;
-        std::string * host;
+        //std::string host;
+        char host[255];
         inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host, INET_ADDRSTRLEN);
-        std::cout << "host: " << *host << std::endl;
+        std::cout << "host: " << host << std::endl;
         //ips.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
