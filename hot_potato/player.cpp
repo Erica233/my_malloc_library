@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
     sprintf (right_port_cstr, "%u", right_port);
     std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
     // as a client, connect with right
-    //int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
+    int as_client_fd = create_client(right_port_cstr, right_host_cstr);
 
     // as a server, connect with left
     //accept
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 
     close(socket_fd);
     close(as_server_fd);
-    //close(as_client_fd);
+    close(as_client_fd);
     close(client_connect_fd);
 
     return EXIT_SUCCESS;
