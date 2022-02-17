@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <string>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
@@ -57,7 +58,7 @@ int main(int argc, char **argv) {
     std::cout << "right_host: " << right_host << std::endl;
 
     // as a client, connect with right
-    int as_client_fd = create_client(right_port, right_host);
+    int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
 
     // as a server, connect with left
     //accept
