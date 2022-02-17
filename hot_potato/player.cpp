@@ -37,9 +37,6 @@ int main(int argc, char **argv) {
     std::cout << "port_num: " << port_num << std::endl;
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
-    //create_server();
-    //create_client();
-
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
     int left_id = id - 1;
     if (left_id < 0) {
@@ -55,16 +52,28 @@ int main(int argc, char **argv) {
     recv(socket_fd, &right_port, sizeof(right_port), 0);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
     std::string right_host(right_host_cstr);
-    std::cout << "sizeof(right_host_cstr): " << sizeof(right_host_cstr) << std::endl;
-    std::cout << "sizeof(right_host): " << right_host.size() << std::endl;
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
     std::cout << "right_host: " << right_host << std::endl;
 
+    // as a client, connect with right
+    int as_client_fd = create_client(right_port, right_host);
+
+    // as a server, connect with left
+    //accept
+    struct sockaddr_storage socket_addr;
+    socklen_t socket_addr_len = sizeof(socket_addr);
+    int client_connect_fd = accept(as_server_fd, (struct sockaddr *)&socket_addr, &socket_addr_len);
+    if (client_connect_fd == -1) {
+        std::cerr << "Error: accept() failed\n";
+        return EXIT_FAILURE;
+    }
 
 
     close(socket_fd);
     close(as_server_fd);
+    close(as_client_fd);
+    close(client_connect_fd);
 
     return EXIT_SUCCESS;
 }

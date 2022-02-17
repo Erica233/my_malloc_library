@@ -47,14 +47,15 @@ int main(int argc, char **argv) {
         }
 
         char host_cstr[255];
-        inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN);
+        memset(host_cstr, 0, sizeof(host_cstr));
+        if (inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN) == NULL) {
+            std::cerr << "Error: inet_ntop() failed\n";
+            return EXIT_FAILURE;
+        }
         std::cout << "host_cstr: " << host_cstr << std::endl;
         std::string host(host_cstr);
         std::cout << "host: " << host << std::endl;
         hosts.push_back(host);
-        std::cout << "sizeof(host_cstr): " << sizeof(host_cstr) << std::endl;
-        std::cout << "host.size(): " << host.size() << std::endl;
-
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
@@ -75,7 +76,6 @@ int main(int argc, char **argv) {
         if (right_id == num_players) {
             right_id = 0;
         }
-        int right_port;
         std::cout << "right_id: " << right_id << std::endl;
         std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
         std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
