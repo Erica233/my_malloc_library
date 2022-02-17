@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 
     //connect ringmaster and each player
     std::vector<std::string> hosts;
-    std::vector<int> ports;
+    std::vector<uint16_t> ports;
     std::vector<int> fds;
     for (int i = 0; i < num_players; i++) {
         //accept
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
 
-        int port;
+        uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), 0);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "num_players = " << num_players;

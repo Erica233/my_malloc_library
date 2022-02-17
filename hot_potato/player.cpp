@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
     }
     uint16_t port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num << std::endl;
+
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
@@ -48,9 +49,8 @@ int main(int argc, char **argv) {
     if (right_id == num_players) {
         right_id = 0;
     }
-    int right_port;
+    uint16_t right_port;
     char right_host_cstr[255];
-    //std::string right_host;
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), 0);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
@@ -59,7 +59,10 @@ int main(int argc, char **argv) {
     std::cout << "right_port: " << right_port << std::endl;
     std::cout << "right_host: " << right_host << std::endl;
     std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
-
+    char right_port_cstr[10];
+    memset(right_port_cstr, 0, sizeof(right_port_cstr));
+    sprintf (right_port_cstr, "%u", right_port);
+    std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
     // as a client, connect with right
     //int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
 
