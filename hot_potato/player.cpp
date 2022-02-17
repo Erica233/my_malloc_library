@@ -13,9 +13,9 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     char * hostname = argv[1];
-    char * port = argv[2];
+    char * master_port = argv[2];
 
-    int socket_fd = create_client(port, hostname);
+    int socket_fd = create_client(master_port, hostname);
 
     int id;
     int num_players;
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     recv(socket_fd, &num_players, sizeof(num_players), 0);
     std::cout << "id = " << id;
     std::cout << "\nnum_players = " << num_players;
-    std::cout << "\nport = " << port << std::endl;
+    std::cout << "\nmaster_port = " << master_port << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");
@@ -34,8 +34,11 @@ int main(int argc, char **argv) {
         std::cerr << "Error: getsockname() failed\n";
         exit(EXIT_FAILURE);
     }
+    char port[INET_ADDRSTRLEN];
+    memset(port, 0, sizeof(port));
+    port = ntohs(addr.sin_port);
     unsigned int port_num = ntohs(addr.sin_port);
-    //std::string port_num = ntohs(addr.sin_port);
+    std::cout << "port: " << port << std::endl;
     std::cout << "port_num: " << port_num << std::endl;
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
