@@ -64,9 +64,11 @@ int main(int argc, char **argv) {
     sprintf(right_port_cstr, "%u", right_port);
     std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
     // as a client, connect with right
+    std::cout << "as a client, connect with right: " << std::endl;
     int as_client_fd = create_client(right_port_cstr, right_host_cstr);
 
     // as a server, connect with left
+    std::cout << "as a server, connect with left: " << std::endl;
     //accept
     struct sockaddr_storage socket_addr;
     socklen_t socket_addr_len = sizeof(socket_addr);
