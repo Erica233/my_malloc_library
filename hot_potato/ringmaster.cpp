@@ -85,8 +85,6 @@ int main(int argc, char **argv) {
         std::cout << std::endl;
     }
 
-
-
     //create potato object
     Potato potato(num_hops);
     //start game

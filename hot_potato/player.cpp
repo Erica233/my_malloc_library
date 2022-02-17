@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
     std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
     char right_port_cstr[10];
     memset(right_port_cstr, 0, sizeof(right_port_cstr));
-    sprintf (right_port_cstr, "%u", right_port);
+    sprintf(right_port_cstr, "%u", right_port);
     std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
     // as a client, connect with right
     int as_client_fd = create_client(right_port_cstr, right_host_cstr);
@@ -76,6 +76,15 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    char buf_send[50];
+    memset(buf_send, 0, 50);
+    sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
+    std::cout << "buf_rec: " << buf_rec << std::endl;
+    char buf_rec[50];
+    memset(buf_rec, 0, 50);
+    send(as_client_fd, &buf_send, sizeof(buf_send), 0);
+    recv(client_connect_fd, &buf_rec, sizeof(buf_rec), 0);
+    std::cout << "buf_send: " << buf_send << std::endl;
 
     close(socket_fd);
     close(as_server_fd);
