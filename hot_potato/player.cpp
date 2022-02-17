@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     //std::string port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num << std::endl;
     //send(socket_fd, &port_num, sizeof(port_num), 0);
-    send(socket_fd, port_num.data(), sizeof(port_num), 0);
+    send(socket_fd, port_num, sizeof(port_num), 0);
 
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
     int left_id = id - 1;
