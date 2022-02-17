@@ -79,12 +79,12 @@ int main(int argc, char **argv) {
     char buf_send[50];
     memset(buf_send, 0, 50);
     sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
-    std::cout << "buf_rec: " << buf_rec << std::endl;
+    std::cout << "buf_send: " << buf_send << std::endl;
     char buf_rec[50];
     memset(buf_rec, 0, 50);
     send(as_client_fd, &buf_send, sizeof(buf_send), 0);
     recv(client_connect_fd, &buf_rec, sizeof(buf_rec), 0);
-    std::cout << "buf_send: " << buf_send << std::endl;
+    std::cout << "buf_rec: " << buf_rec << std::endl;
 
     close(socket_fd);
     close(as_server_fd);
