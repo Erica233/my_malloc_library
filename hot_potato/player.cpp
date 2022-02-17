@@ -54,11 +54,11 @@ int main(int argc, char **argv) {
     std::string right_host;
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), 0);
-    recv(socket_fd, right_host.data(), right_host.size(), 0);
-    //std::string right_host(right_host_cstr);
+    recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
+    std::string right_host(right_host_cstr);
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
-    std::cout << "right_host: " << right_host << std::endl;
+    std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
 
     // as a client, connect with right
     //int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
