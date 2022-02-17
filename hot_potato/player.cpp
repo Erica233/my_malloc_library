@@ -34,9 +34,11 @@ int main(int argc, char **argv) {
         std::cerr << "Error: getsockname() failed\n";
         exit(EXIT_FAILURE);
     }
-    unsigned int port_num = ntohs(addr.sin_port);
+    //unsigned int port_num = ntohs(addr.sin_port);
+    std::string port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num << std::endl;
-    send(socket_fd, &port_num, sizeof(port_num), 0);
+    //send(socket_fd, &port_num, sizeof(port_num), 0);
+    send(socket_fd, port_num.data(), sizeof(port_num), 0);
 
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
     int left_id = id - 1;
@@ -49,16 +51,17 @@ int main(int argc, char **argv) {
     }
     int right_port;
     char right_host_cstr[255];
+    std::string right_host;
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), 0);
-    recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
-    std::string right_host(right_host_cstr);
+    recv(socket_fd, right_host.data(), right_host.size(), 0);
+    //std::string right_host(right_host_cstr);
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
     std::cout << "right_host: " << right_host << std::endl;
 
     // as a client, connect with right
-    int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
+    //int as_client_fd = create_client(right_port.c_str(), right_host_cstr);
 
     // as a server, connect with left
     //accept
