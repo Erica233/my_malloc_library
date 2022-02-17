@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
         std::cerr << "Error: getsockname() failed\n";
         exit(EXIT_FAILURE);
     }
-    //unsigned int port_num = ntohs(addr.sin_port);
-    std::string port_num = ntohs(addr.sin_port);
+    unsigned int port_num = ntohs(addr.sin_port);
+    //std::string port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num << std::endl;
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, port_num.data(), sizeof(port_num), 0);
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 
     close(socket_fd);
     close(as_server_fd);
-    close(as_client_fd);
+    //close(as_client_fd);
     close(client_connect_fd);
 
     return EXIT_SUCCESS;
