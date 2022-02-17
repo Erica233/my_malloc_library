@@ -34,11 +34,7 @@ int main(int argc, char **argv) {
         std::cerr << "Error: getsockname() failed\n";
         exit(EXIT_FAILURE);
     }
-    char port[INET_ADDRSTRLEN];
-    memset(port, 0, sizeof(port));
-    port = ntohs(addr.sin_port);
-    unsigned int port_num = ntohs(addr.sin_port);
-    std::cout << "port: " << port << std::endl;
+    uint16_t port_num = ntohs(addr.sin_port);
     std::cout << "port_num: " << port_num << std::endl;
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
