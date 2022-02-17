@@ -51,13 +51,14 @@ int main(int argc, char **argv) {
     }
     int right_port;
     char right_host_cstr[255];
-    std::string right_host;
+    //std::string right_host;
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), 0);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
     std::string right_host(right_host_cstr);
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
+    std::cout << "right_host: " << right_host << std::endl;
     std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
 
     // as a client, connect with right
