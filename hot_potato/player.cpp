@@ -88,6 +88,10 @@ int main(int argc, char **argv) {
     recv(client_connect_fd, &buf_rec, sizeof(buf_rec), 0);
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
+    Potato potato;
+    recv(socket_fd, &potato, sizeof(potato), 0);
+    std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
+
     close(socket_fd);
     close(as_server_fd);
     close(as_client_fd);
