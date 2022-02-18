@@ -90,8 +90,10 @@ int main(int argc, char **argv) {
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
     Potato potato;
-    //recv(socket_fd, &potato, sizeof(potato), 0);
+    int num;
+    recv(socket_fd, &num, sizeof(num), 0);
     //std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
+    std::cout << "num: " << num << std::endl;
 
     close(socket_fd);
     close(as_server_fd);

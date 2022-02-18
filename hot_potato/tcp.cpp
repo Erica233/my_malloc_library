@@ -64,7 +64,7 @@ int create_client(const char * port, const char * hostname) {
 
     int status = getaddrinfo(hostname, port, &host_info, &host_info_list);
     if (status != 0) {
-        std::cerr << "Error: getaddrinfo() failed" << gai_strerror(status);
+        std::cerr << "Error: getaddrinfo() failed - " << gai_strerror(status);
         std::cerr << hostname << "," << port << std::endl;
         exit(EXIT_FAILURE);
     }
