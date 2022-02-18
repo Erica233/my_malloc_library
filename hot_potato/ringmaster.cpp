@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
         std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
 
-        send(fds[i], hosts[right_id].c_str(), hosts[right_id].size(), 0);
+        send(fds[i], hosts[right_id].c_str(), sizeof(hosts[right_id].c_str()), 0);
         std::cout << std::endl;
     }
 
