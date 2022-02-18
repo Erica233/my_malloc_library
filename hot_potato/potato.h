@@ -3,11 +3,11 @@
 #include <vector>
 
 class Potato {
-private:
+public:
     int num_hops;
     //std::vector<int> ids;
     //int ids[];
-public:
+
     Potato(): num_hops(0) {}
     //explicit Potato(int n): num_hops(n) {}
 };
