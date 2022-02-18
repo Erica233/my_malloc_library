@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 #include "tcp.cpp"
+#include "potato.h"
 
 int main(int argc, char **argv) {
     if (argc != 3) {
