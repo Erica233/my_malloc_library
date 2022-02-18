@@ -7,7 +7,7 @@ class Potato {
 public:
     int num_hops;
     //std::vector<int> ids;
-    int ids[MAX_HOPS];
+    int ids[MAX_HOPS] = {-1};
 
     Potato(): num_hops(0) {}
     explicit Potato(int n): num_hops(n) {}
