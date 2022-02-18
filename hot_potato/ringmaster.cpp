@@ -82,7 +82,8 @@ int main(int argc, char **argv) {
         std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
 
-        char * host_cstr = new char [hosts[right_id].length()+1];
+        char host_cstr[255];
+        memset(host_cstr, 0, sizeof(host_cstr));
         std::strcpy (host_cstr, hosts[right_id].c_str());
         send(fds[i], host_cstr, sizeof(host_cstr), 0);
         std::cout << std::endl;
