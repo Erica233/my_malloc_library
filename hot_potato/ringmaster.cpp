@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
     //start game
     std::cout << "Ready to start the game, sending potato to player 2" << std::endl;
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-    potato.ids.push_back(9);
+    potato.ids[0] = 7;
     send(fds[0], &potato, sizeof(potato), 0);
     send(fds[1], &potato, sizeof(potato), 0);
     //report results
