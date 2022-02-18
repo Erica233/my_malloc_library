@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
     //create potato object
     Potato potato(num_hops);
     //start game
+    std::cout << "Ready to start the game, sending potato to player 2" << std::cout;
     //report results
     //shut down the game
 
