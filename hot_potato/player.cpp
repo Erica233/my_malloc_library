@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
     Potato potato;
     recv(socket_fd, &potato, sizeof(potato), MSG_WAITALL);
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-
+    std::cout << "potato.ids: " << potato.ids[0] << std::endl;
     close(socket_fd);
     close(as_server_fd);
     close(as_client_fd);
