@@ -79,12 +79,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    char buf_send[50];
-    memset(buf_send, 0, 50);
+    char buf_send[250];
+    memset(buf_send, 0, 250);
     sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
     std::cout << "buf_send: " << buf_send << std::endl;
-    char buf_rec[50];
-    memset(buf_rec, 0, 50);
+    char buf_rec[250];
+    memset(buf_rec, 0, 250);
     send(as_client_fd, &buf_send, sizeof(buf_send), 0);
     recv(client_connect_fd, &buf_rec, sizeof(buf_rec), MSG_WAITALL);
     std::cout << "buf_rec: " << buf_rec << std::endl;
