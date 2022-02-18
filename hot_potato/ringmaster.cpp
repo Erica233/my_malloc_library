@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
 
         char * host_cstr = new char [hosts[right_id].length()+1];
         std::strcpy (host_cstr, hosts[right_id].c_str());
-        send(fds[i], &host_cstr, sizeof(host_cstr), 0);
+        send(fds[i], host_cstr, sizeof(host_cstr), 0);
         std::cout << std::endl;
     }
 
