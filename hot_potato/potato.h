@@ -8,6 +8,7 @@ private:
     std::vector<int> ids;
     //int ids[];
 public:
+    Potato(): num_hops(0) {}
     explicit Potato(int n): num_hops(n) {}
 };
 
