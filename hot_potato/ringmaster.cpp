@@ -92,11 +92,12 @@ int main(int argc, char **argv) {
     //create potato object
     Potato potato(num_hops);
     //start game
-    std::cout << "Ready to start the game, sending potato to player 2" << std::endl;
+    srand((unsigned int)time(NULL));
+    int random = rand() % num_players;
+    std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-    potato.ids[0] = 7;
-    send(fds[0], &potato, sizeof(potato), 0);
-    send(fds[1], &potato, sizeof(potato), 0);
+    send(fds[random], &potato, sizeof(potato), 0);
+
     //report results
     //shut down the game
 
