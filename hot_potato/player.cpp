@@ -93,6 +93,9 @@ int main(int argc, char **argv) {
     recv(socket_fd, &potato, sizeof(potato), MSG_WAITALL);
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
     potato.ids[id] = id;
+    for (int i = 0; i < MAX_HOPS; i++) {
+        std::cout << "i = " << i << " ids:" << potato.ids[i] << std::endl;
+    }
 
     close(socket_fd);
     close(as_server_fd);
