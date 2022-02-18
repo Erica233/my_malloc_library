@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
 
         uint16_t port;
-        recv(client_connect_fd, &port, sizeof(port), 0);
+        recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
         std::cout << "Player " << i << " is ready to play\n";
         std::cout << "num_players = " << num_players;
         std::cout << "\nport = " << port << std::endl;

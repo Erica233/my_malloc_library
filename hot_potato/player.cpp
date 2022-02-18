@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
 
     int id;
     int num_players;
-    recv(socket_fd, &id, sizeof(id), 0);
-    recv(socket_fd, &num_players, sizeof(num_players), 0);
+    recv(socket_fd, &id, sizeof(id), MSG_WAITALL);
+    recv(socket_fd, &num_players, sizeof(num_players), MSG_WAITALL);
     std::cout << "id = " << id;
     std::cout << "\nnum_players = " << num_players;
     std::cout << "\nmaster_port = " << master_port << std::endl;
@@ -53,8 +53,8 @@ int main(int argc, char **argv) {
     uint16_t right_port;
     char right_host_cstr[255];
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
-    recv(socket_fd, &right_port, sizeof(right_port), 0);
-    recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), 0);
+    recv(socket_fd, &right_port, sizeof(right_port), MSG_WAITALL);
+    recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), MSG_WAITALL);
     std::string right_host(right_host_cstr);
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
@@ -86,12 +86,12 @@ int main(int argc, char **argv) {
     char buf_rec[50];
     memset(buf_rec, 0, 50);
     send(as_client_fd, &buf_send, sizeof(buf_send), 0);
-    recv(client_connect_fd, &buf_rec, sizeof(buf_rec), 0);
+    recv(client_connect_fd, &buf_rec, sizeof(buf_rec), MSG_WAITALL);
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
     Potato potato;
     int num;
-    recv(socket_fd, &num, sizeof(num), 0);
+    recv(socket_fd, &num, sizeof(num), MSG_WAITALL);
     //std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
     std::cout << "num: " << num << std::endl;
 
