@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
     send(fds[random], &potato, sizeof(potato), 0);
-    for (int i = 0; i < MAX_HOPS; i++) {
+    for (int i = 0; i < 10; i++) {
         std::cout << "i = " << i << " ids:" << potato.ids[i] << std::endl;
     }
 
