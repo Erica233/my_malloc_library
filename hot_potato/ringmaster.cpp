@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
     std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
     send(fds[random], &potato, sizeof(potato), 0);
     if (num_hops == 0) {
-        //game ends
+        //shut down immediately
     }
     for (int i = 0; i < 10; i++) {
         std::cout << "ids[" << i << "] = " << potato.ids[i] << std::endl;
@@ -107,6 +107,10 @@ int main(int argc, char **argv) {
     for (int i = 0; i < num_players; i++) {
         std::cout << "fds[" << i << "] = " << fds[i] << std::endl;
     }
+    if (num_hops == 0) {
+        //game ends
+    }
+    //wait for potato back
     int max_fd = 0;
     fd_set readfds;
     struct timeval tv;
@@ -134,9 +138,15 @@ int main(int argc, char **argv) {
         }
     }
 
-
     //report results
+    std::cout << "Trace of potato: \n";
+    for (i = 0; i < num_hops; i++) {
+        std::cout << potato.ids[i] << " ";
+    }
     //shut down the game
+    for (i = 0; i < num_players; i++) {
+        close(fds[i]);
+    }
 
     close(socket_fd);
     return EXIT_SUCCESS;
