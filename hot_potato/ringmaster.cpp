@@ -103,12 +103,12 @@ int main(int argc, char **argv) {
         select_read(fds, potato);
         //report results
         std::cout << "Trace of potato: \n";
-        for (i = 0; i < num_hops; i++) {
+        for (int i = 0; i < num_hops; i++) {
             std::cout << potato.ids[i] << " ";
         }
     }
     //shut down the game
-    for (i = 0; i < num_players; i++) {
+    for (int i = 0; i < num_players; i++) {
         send(fds[i], &potato, sizeof(potato), 0);
         close(fds[i]);
     }
