@@ -106,9 +106,13 @@ int main(int argc, char **argv) {
             break;
         }
         //if get potato from other player, edit potato
+        std::cout << "edit potato: \n";
         potato.ids[potato.curr_rnd] = id;
+        std::cout << "ids[potato.curr_rnd] = " << potato.ids[potato.curr_rnd] << std::endl;
         potato.curr_rnd++;
+        std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         potato.remain_hops--;
+        std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         if (potato.remain_hops == 0) {
             std::cout << "I’m it\n";
             //send to ringmaster
