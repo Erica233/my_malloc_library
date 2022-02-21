@@ -96,9 +96,7 @@ int main(int argc, char **argv) {
     std::vector<int> fds;
     std::vector<int> ids;
     fds.insert(fds.end(), {as_client_fd, client_connect_fd, socket_fd});
-    std::cout << "between insert\n";
     ids.insert(ids.end(), {right_id, left_id});
-    std::cout << "after insert\n";
     while (true) {
         std::cout << "enter while\n";
         //receive potato from ringmaster or other players
