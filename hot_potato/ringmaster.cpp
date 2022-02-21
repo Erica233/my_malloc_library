@@ -95,53 +95,43 @@ int main(int argc, char **argv) {
     srand((unsigned int)time(NULL));
     int random = rand() % num_players;
     std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
-    std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-    std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
+    //std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
+    //std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
     send(fds[random], &potato, sizeof(potato), 0);
-    if (num_hops == 0) {
-        //shut down immediately
-    }
-    for (int i = 0; i < 10; i++) {
-        std::cout << "ids[" << i << "] = " << potato.ids[i] << std::endl;
-    }
-    for (int i = 0; i < num_players; i++) {
-        std::cout << "fds[" << i << "] = " << fds[i] << std::endl;
-    }
-    if (num_hops == 0) {
-        //game ends
-    }
     //wait for potato back
-    int max_fd = 0;
-    fd_set readfds;
-    struct timeval tv;
-    tv.tv_sec = 5;
-    FD_ZERO(&readfds);
-    for (int i = 0; i < num_players; i++) {
-        if (fds[i] > max_fd) {
-            max_fd = fds[i];
-        }
-        FD_SET(fds[i], readfds);
-    }
-    int rv = select(max_fd + 1, &readfds, NULL, NULL, &tv);
-    if (rv == -1) {
-        perror("select");
-        std::cerr << "Error: select() failed\n";
-        exit(EXIT_FAILURE);
-    } else if (rv == 0) {
-        std::cerr << "Timeout: select()\n";
-        exit(EXIT_FAILURE);
+    if (num_hops == 0) {
+        //shut down
     } else {
-        for (i = 0; i < max_fd; i++) {
-            if (FD_ISSET(fds[i], &readfds)) {
-                recv(fds[i], &potato, sizeof(potato), MSG_WAITALL);
+        int max_fd = 0;
+        fd_set readfds;
+        FD_ZERO(&readfds);
+        for (int i = 0; i < num_players; i++) {
+            if (fds[i] > max_fd) {
+                max_fd = fds[i];
+            }
+            FD_SET(fds[i], readfds);
+        }
+        int rv = select(max_fd + 1, &readfds, NULL, NULL, NULL);
+        if (rv == -1) {
+            perror("select");
+            std::cerr << "Error: select() failed\n";
+            exit(EXIT_FAILURE);
+        } else if (rv == 0) {
+            std::cerr << "Timeout: select()\n";
+            exit(EXIT_FAILURE);
+        } else {
+            for (i = 0; i < max_fd; i++) {
+                if (FD_ISSET(fds[i], &readfds)) {
+                    recv(fds[i], &potato, sizeof(potato), MSG_WAITALL);
+                    break;
+                }
             }
         }
-    }
-
-    //report results
-    std::cout << "Trace of potato: \n";
-    for (i = 0; i < num_hops; i++) {
-        std::cout << potato.ids[i] << " ";
+        //report results
+        std::cout << "Trace of potato: \n";
+        for (i = 0; i < num_hops; i++) {
+            std::cout << potato.ids[i] << " ";
+        }
     }
     //shut down the game
     for (i = 0; i < num_players; i++) {
