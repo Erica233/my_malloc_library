@@ -90,10 +90,13 @@ int main(int argc, char **argv) {
     recv(client_connect_fd, &buf_rec, sizeof(buf_rec), MSG_WAITALL);
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
+    //play
     Potato potato;
     recv(socket_fd, &potato, sizeof(potato), MSG_WAITALL);
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-    potato.ids[id] = id;
+    potato.ids[potato.curr_rnd] = id;
+    potato.curr_rnd++;
+    std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
     for (int i = 0; i < 10; i++) {
         std::cout << "i = " << i << " ids:" << potato.ids[i] << std::endl;
     }

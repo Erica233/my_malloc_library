@@ -96,6 +96,7 @@ int main(int argc, char **argv) {
     int random = rand() % num_players;
     std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
     std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
+    std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
     send(fds[random], &potato, sizeof(potato), 0);
     if (num_hops == 0) {
         //game ends
