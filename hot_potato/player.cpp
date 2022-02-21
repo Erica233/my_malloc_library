@@ -101,6 +101,8 @@ int main(int argc, char **argv) {
         std::cout << "enter while\n";
         //receive potato from ringmaster or other players
         select_read(fds, potato);
+        std::cout << "after select\n";
+        std::cout << "tot_hops: " << potato.tot_hops << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == 0) {
             std::cout << "game ends\n";
