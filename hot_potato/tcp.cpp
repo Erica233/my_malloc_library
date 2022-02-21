@@ -6,6 +6,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
+#include <vector>
+#include "potato.h"
 
 #define BACK_LOG 100
 
@@ -84,4 +86,32 @@ int create_client(const char * port, const char * hostname) {
     }
     freeaddrinfo(host_info_list);
     return socket_fd;
+}
+
+void select_read(std::vector<int> & fds, Potato & potato) {
+    int max_fd = 0;
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    for (int i = 0; i < fds.size(); i++) {
+        if (fds[i] > max_fd) {
+            max_fd = fds[i];
+        }
+        FD_SET(fds[i], readfds);
+    }
+    int rv = select(max_fd + 1, &readfds, NULL, NULL, NULL);
+    if (rv == -1) {
+        perror("select");
+        std::cerr << "Error: select() failed\n";
+        exit(EXIT_FAILURE);
+    } else if (rv == 0) {
+        std::cerr << "Timeout: select()\n";
+        exit(EXIT_FAILURE);
+    } else {
+        for (i = 0; i < fds.size(); i++) {
+            if (FD_ISSET(fds[i], &readfds)) {
+                recv(fds[i], &potato, sizeof(potato), MSG_WAITALL);
+                break;
+            }
+        }
+    }
 }

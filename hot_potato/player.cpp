@@ -92,13 +92,32 @@ int main(int argc, char **argv) {
 
     //play
     Potato potato;
-    recv(socket_fd, &potato, sizeof(potato), MSG_WAITALL);
-    std::cout << "potato.num_hops: " << potato.num_hops << std::endl;
-    potato.ids[potato.curr_rnd] = id;
-    potato.curr_rnd++;
-    std::cout << "potato.curr_rnd: " << potato.curr_rnd << std::endl;
-    for (int i = 0; i < 10; i++) {
-        std::cout << "i = " << i << " ids:" << potato.ids[i] << std::endl;
+    std::vector<int> fds;
+    std::vector<int> ids;
+    fds.insert(fds.end(), {as_client_fd, client_connect_fd, socket_fd});
+    ids.insert(fds.end(), {right_id, left_id});
+    while (true) {
+        //receive potato from ringmaster or other players
+        select_read(fds, potato);
+        //if the ringmaster notify that the game ends, jump out of loop
+        if (potato.remain_hops == 0) {
+            break;
+        }
+        //if get potato from other player, edit potato
+        potato.ids[potato.curr_rnd] = id;
+        potato.curr_rnd++;
+        potato.remain_hops--;
+        if (potato.remain_hops == 0) {
+            std::cout << "I’m it\n";
+            //send to ringmaster
+            send(socket_fd, &potato, sizeof(potato), 0);
+            break;
+        }
+        //send to a random neighbor
+        srand((unsigned int)time(NULL) + id);
+        int random_idx = rand() % 2;
+        send(fds[random_idx], &potato, sizeof(potato), 0);
+        std::cout << "Sending potato to " << ids[random_idx] << std::endl;
     }
 
     close(socket_fd);
