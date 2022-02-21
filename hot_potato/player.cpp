@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
             std::cout << "I’m it\n";
             //send to ringmaster
             send(socket_fd, &potato, sizeof(potato), 0);
-            break;
+            continue;
         }
         //send to a random neighbor
         srand((unsigned int)time(NULL) + id);
