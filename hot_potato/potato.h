@@ -13,7 +13,7 @@ public:
     int ids[MAX_HOPS] = {};
 
     Potato(): tot_hops(0), remain_hops(0), curr_rnd(0) {}
-    explicit Potato(int n): tot_hops(n), remain_hops(0), curr_rnd(0) {}
+    explicit Potato(int n): tot_hops(n), remain_hops(n), curr_rnd(0) {}
 };
 
 #endif
