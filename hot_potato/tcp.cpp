@@ -108,9 +108,11 @@ void select_read(std::vector<int> & fds, Potato & potato) {
         std::cerr << "Timeout: select()\n";
         exit(EXIT_FAILURE);
     } else {
+        std::cout << "Successful select(): \n";
         for (int i = 0; i < fds.size(); i++) {
             if (FD_ISSET(fds[i], &readfds)) {
                 recv(fds[i], &potato, sizeof(potato), MSG_WAITALL);
+                std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
                 break;
             }
         }
