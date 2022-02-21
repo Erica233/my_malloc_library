@@ -91,32 +91,32 @@ int main(int argc, char **argv) {
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
     //play
-    std::cout << "before potato: \n";
+    //std::cout << "before potato: \n";
     Potato potato;
     std::vector<int> fds;
     std::vector<int> ids;
     fds.insert(fds.end(), {as_client_fd, client_connect_fd, socket_fd});
     ids.insert(ids.end(), {right_id, left_id});
     while (true) {
-        std::cout << "enter while\n";
+        //std::cout << "enter while\n";
         //receive potato from ringmaster or other players
         select_read(fds, potato);
-        std::cout << "after select_read()\n";
-        std::cout << "tot_hops: " << potato.tot_hops << std::endl;
-        std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
+        //std::cout << "after select_read()\n";
+        //std::cout << "tot_hops: " << potato.tot_hops << std::endl;
+        //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == 0) {
             std::cout << "game ends\n";
             break;
         }
         //if get potato from other player, edit potato
-        std::cout << "edit potato: \n";
+        //std::cout << "edit potato: \n";
         potato.ids[potato.curr_rnd] = id;
-        std::cout << "ids[potato.curr_rnd] = " << potato.ids[potato.curr_rnd] << std::endl;
+        //std::cout << "ids[potato.curr_rnd] = " << potato.ids[potato.curr_rnd] << std::endl;
         potato.curr_rnd++;
-        std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
+        //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         potato.remain_hops--;
-        std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
+        //std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         if (potato.remain_hops == 0) {
             std::cout << "I’m it\n";
             //send to ringmaster

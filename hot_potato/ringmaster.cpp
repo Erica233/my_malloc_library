@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
         select_read(fds, potato);
         //report results
         std::cout << "Trace of potato: \n";
-        std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
+        //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         for (int i = 0; i < num_hops; i++) {
             std::cout << potato.ids[i] << " ";
         }
