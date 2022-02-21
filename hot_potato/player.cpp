@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
     char buf_send[250];
     memset(buf_send, 0, 250);
     sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
-    std::cout << "buf_send: " << buf_send << std::endl;
+    std::cout << "buf_send: " << buf_send;
     char buf_rec[250];
     memset(buf_rec, 0, 250);
     send(as_client_fd, &buf_send, sizeof(buf_send), 0);
@@ -91,6 +91,7 @@ int main(int argc, char **argv) {
     std::cout << "buf_rec: " << buf_rec << std::endl;
 
     //play
+    std::cout << "before potato: \n";
     Potato potato;
     std::vector<int> fds;
     std::vector<int> ids;
@@ -101,6 +102,7 @@ int main(int argc, char **argv) {
         select_read(fds, potato);
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == 0) {
+            std::cout << "game ends\n";
             break;
         }
         //if get potato from other player, edit potato

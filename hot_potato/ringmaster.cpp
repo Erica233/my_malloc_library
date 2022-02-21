@@ -95,14 +95,15 @@ int main(int argc, char **argv) {
     srand((unsigned int)time(NULL));
     int random = rand() % num_players;
     std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
-    send(fds[random], &potato, sizeof(potato), 0);
     //wait for potato back
     if (num_hops == 0) {
         //shut down
     } else {
+        send(fds[random], &potato, sizeof(potato), 0);
         select_read(fds, potato);
         //report results
         std::cout << "Trace of potato: \n";
+        std::cout << "trace.size: " << sizeof(potato.ids) << std::endl;
         for (int i = 0; i < num_hops; i++) {
             std::cout << potato.ids[i] << " ";
         }
