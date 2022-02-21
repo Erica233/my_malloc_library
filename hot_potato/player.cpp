@@ -92,14 +92,14 @@ int main(int argc, char **argv) {
 
     //play
     std::cout << "before potato: \n";
-    Potato potato;
+    Potato* potato  = new potato();
     std::vector<int> fds;
     std::vector<int> ids;
     fds.insert(fds.end(), {as_client_fd, client_connect_fd, socket_fd});
     ids.insert(fds.end(), {right_id, left_id});
     while (true) {
         //receive potato from ringmaster or other players
-        select_read(fds, potato);
+        select_read(fds, *potato);
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == 0) {
             std::cout << "game ends\n";
