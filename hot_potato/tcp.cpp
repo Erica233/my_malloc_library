@@ -90,6 +90,8 @@ int create_client(const char * port, const char * hostname) {
 }
 
 void select_read(std::vector<int> & fds, Potato & potato) {
+    std::cout << "start of select_read(): \n";
+    std::cout << "tot_hops: " << potato.tot_hops << std::endl;
     int max_fd = 0;
     fd_set readfds;
     FD_ZERO(&readfds);
