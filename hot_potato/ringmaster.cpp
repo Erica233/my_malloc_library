@@ -107,6 +107,33 @@ int main(int argc, char **argv) {
     for (int i = 0; i < num_players; i++) {
         std::cout << "fds[" << i << "] = " << fds[i] << std::endl;
     }
+    int max_fd = 0;
+    fd_set readfds;
+    struct timeval tv;
+    tv.tv_sec = 5;
+    FD_ZERO(&readfds);
+    for (int i = 0; i < num_players; i++) {
+        if (fds[i] > max_fd) {
+            max_fd = fds[i];
+        }
+        FD_SET(fds[i], readfds);
+    }
+    int rv = select(max_fd + 1, &readfds, NULL, NULL, &tv);
+    if (rv == -1) {
+        perror("select");
+        std::cerr << "Error: select() failed\n";
+        exit(EXIT_FAILURE);
+    } else if (rv == 0) {
+        std::cerr << "Timeout: select()\n";
+        exit(EXIT_FAILURE);
+    } else {
+        for (i = 0; i < max_fd; i++) {
+            if (FD_ISSET(fds[i], &readfds)) {
+                recv(fds[i], &potato, sizeof(potato), MSG_WAITALL);
+            }
+        }
+    }
+
 
     //report results
     //shut down the game
