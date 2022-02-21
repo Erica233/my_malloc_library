@@ -97,7 +97,7 @@ void select_read(std::vector<int> & fds, Potato & potato) {
         if (fds[i] > max_fd) {
             max_fd = fds[i];
         }
-        FD_SET(fds[i], readfds);
+        FD_SET(fds[i], &readfds);
     }
     int rv = select(max_fd + 1, &readfds, NULL, NULL, NULL);
     if (rv == -1) {
