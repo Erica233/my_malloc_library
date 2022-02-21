@@ -94,11 +94,12 @@ int main(int argc, char **argv) {
     //start game
     srand((unsigned int)time(NULL));
     int random = rand() % num_players;
+    std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
     //wait for potato back
     if (num_hops == 0) {
         //shut down
     } else {
-        std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
+        //std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
         send(fds[random], &potato, sizeof(potato), 0);
         select_read(fds, potato);
         //report results
