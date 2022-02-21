@@ -102,7 +102,10 @@ int main(int argc, char **argv) {
         //game ends
     }
     for (int i = 0; i < 10; i++) {
-        std::cout << "i = " << i << " ids:" << potato.ids[i] << std::endl;
+        std::cout << "ids[" << i << "] = " << potato.ids[i] << std::endl;
+    }
+    for (int i = 0; i < num_players; i++) {
+        std::cout << "fds[" << i << "] = " << fds[i] << std::endl;
     }
 
     //report results
