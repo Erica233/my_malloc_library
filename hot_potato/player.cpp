@@ -79,6 +79,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    //test neighbor connection
     char buf_send[250];
     memset(buf_send, 0, 250);
     sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
