@@ -42,7 +42,8 @@ int main(int argc, char **argv) {
         std::cerr << "Error: getsockname() failed\n";
         exit(EXIT_FAILURE);
     }
-    uint16_t port_num = ntohs(addr.sin_port);
+    //uint16_t port_num = ntohs(addr.sin_port);
+    uint16_t port_num = addr.sin_port;
     std::cout << "addr.sin_port: " << addr.sin_port << std::endl;
     std::cout << "my port_num: " << port_num << std::endl;
 
