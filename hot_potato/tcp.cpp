@@ -55,6 +55,7 @@ int create_server(const char * port) {
         std::cerr << hostname << "," << port << std::endl;
         exit(EXIT_FAILURE);
     }
+    std::cout << "hostname from getaddrinfo()" << hostname << std::endl;
     freeaddrinfo(host_info_list);
     return socket_fd;
 }
