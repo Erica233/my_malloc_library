@@ -28,10 +28,10 @@ int main(int argc, char **argv) {
     char host[1024];
     host[1023] = '\0';
     gethostname(host, 1023);
+    char * host_p = NULL;
+    gethostname(host_p, sizeof host_p);
     std::cout << "host from gethostname()" << host << std::endl;
-    struct hostent* h;
-    h = gethostbyname(host);
-    std::cout << "host from gethostbyname()" << h->h_addr_list[0] << std::endl;
+    std::cout << "host_p from gethostname()" << host_p << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");
