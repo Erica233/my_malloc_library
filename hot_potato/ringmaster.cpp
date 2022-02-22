@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
         //std::cout << "\nport = " << port << std::endl;
         ports.push_back(port);
         fds.push_back(client_connect_fd);
-        //std::cout << std::endl;
     }
     //print_vec(num_players, hosts, ports);
 
@@ -88,11 +87,10 @@ int main(int argc, char **argv) {
         //std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
 
-        char host_cstr[255];
+        char host_cstr[MAX_HOST_LEN];
         memset(host_cstr, 0, sizeof(host_cstr));
         std::strcpy (host_cstr, hosts[right_id].c_str());
         send(fds[i], host_cstr, sizeof(host_cstr), 0);
-        //std::cout << std::endl;
     }
 
     //create potato object

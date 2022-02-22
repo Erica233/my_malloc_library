@@ -9,6 +9,7 @@
 #include "potato.h"
 
 int main(int argc, char **argv) {
+    //parse command line argument
     if (argc != 3) {
         std::cerr << "Usage: program <machine_name> <port_num>\n";
         return EXIT_FAILURE;
@@ -16,6 +17,7 @@ int main(int argc, char **argv) {
     char * hostname = argv[1];
     char * master_port = argv[2];
 
+    //connect itself with ringmaster
     int socket_fd = create_client(master_port, hostname);
 
     int id;
@@ -25,13 +27,25 @@ int main(int argc, char **argv) {
     //std::cout << "id = " << id << std::endl;
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
+    int left_id = id - 1;
+    if (left_id < 0) {
+        left_id = num_players - 1;
+    }
+    int right_id = id + 1;
+    if (right_id == num_players) {
+        right_id = 0;
+    }
+
     char host[MAX_HOST_LEN];
     memset(host, 0, sizeof(host));
-    gethostname(host, sizeof(host));
+    if (gethostname(host, sizeof(host)) != 0) {
+        std::cerr << "Error: gethostname() failed\n";
+        return EXIT_FAILURE;
+    }
     std::cout << "host from gethostname()" << host << std::endl;
     send(socket_fd, &host, sizeof(host), 0);
 
-    //work as a server
+    //work as a server and get port, and send to ringmaster
     int as_server_fd = create_server("0");
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
@@ -41,24 +55,13 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     uint16_t port_num = ntohs(addr.sin_port);
-    //uint16_t port_num = addr.sin_port;
-    std::cout << "addr.sin_port: " << addr.sin_port << std::endl;
     std::cout << "my port_num: " << port_num << std::endl;
-
-    //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
     std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
-    int left_id = id - 1;
-    if (left_id < 0) {
-        left_id = num_players - 1;
-    }
-    int right_id = id + 1;
-    if (right_id == num_players) {
-        right_id = 0;
-    }
+
     uint16_t right_port;
-    char right_host_cstr[255];
+    char right_host_cstr[MAX_HOST_LEN];
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
     recv(socket_fd, &right_port, sizeof(right_port), MSG_WAITALL);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), MSG_WAITALL);
