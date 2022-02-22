@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 
 #include "potato.h"
-#include "tcp.cpp"
+#include "tcp.h"
 
 void print_vec(int num_players, std::vector<std::string> & hosts, std::vector<uint16_t> & ports) {
     std::cout << "========print_vec()=========\n";
