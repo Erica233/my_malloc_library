@@ -43,7 +43,8 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     uint16_t port_num = ntohs(addr.sin_port);
-    //std::cout << "my port_num: " << port_num << std::endl;
+    std::cout << "addr.sin_port: " << addr.sin_port << std::endl;
+    std::cout << "my port_num: " << port_num << std::endl;
 
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
