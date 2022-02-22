@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
     recv(socket_fd, &id, sizeof(id), MSG_WAITALL);
     recv(socket_fd, &num_players, sizeof(num_players), MSG_WAITALL);
     std::cout << "id = " << id;
-    std::cout << "\nnum_players = " << num_players;
-    std::cout << "\nmaster_port = " << master_port << std::endl;
+    //std::cout << "\nnum_players = " << num_players;
+    //std::cout << "\nmaster_port = " << master_port << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     uint16_t port_num = ntohs(addr.sin_port);
-    std::cout << "port_num: " << port_num << std::endl;
+    std::cout << "my port_num: " << port_num << std::endl;
 
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
@@ -59,17 +59,17 @@ int main(int argc, char **argv) {
     std::cout << "right_id: " << right_id << std::endl;
     std::cout << "right_port: " << right_port << std::endl;
     std::cout << "right_host: " << right_host << std::endl;
-    std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
+    //std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
     char right_port_cstr[10];
     memset(right_port_cstr, 0, sizeof(right_port_cstr));
     sprintf(right_port_cstr, "%u", right_port);
-    std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
+    //std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
     // as a client, connect with right
-    std::cout << "as a client, connect with right: " << std::endl;
+    //std::cout << "as a client, connect with right: " << std::endl;
     int as_client_fd = create_client(right_port_cstr, right_host_cstr);
 
     // as a server, connect with left
-    std::cout << "as a server, connect with left: " << std::endl;
+    //std::cout << "as a server, connect with left: " << std::endl;
     //accept
     struct sockaddr_storage socket_addr;
     socklen_t socket_addr_len = sizeof(socket_addr);
@@ -78,17 +78,6 @@ int main(int argc, char **argv) {
         std::cerr << "Error: accept() failed\n";
         return EXIT_FAILURE;
     }
-
-    //test neighbor connection
-    char buf_send[250];
-    memset(buf_send, 0, 250);
-    sprintf(buf_send, "my id is %d, my right id is %d\n", id, right_id);
-    std::cout << "buf_send: " << buf_send;
-    char buf_rec[250];
-    memset(buf_rec, 0, 250);
-    send(as_client_fd, &buf_send, sizeof(buf_send), 0);
-    recv(client_connect_fd, &buf_rec, sizeof(buf_rec), MSG_WAITALL);
-    std::cout << "buf_rec: " << buf_rec << std::endl;
 
     //play
     //std::cout << "before potato: \n";

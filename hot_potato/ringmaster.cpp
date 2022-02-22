@@ -53,9 +53,9 @@ int main(int argc, char **argv) {
             std::cerr << "Error: inet_ntop() failed\n";
             return EXIT_FAILURE;
         }
-        std::cout << "host_cstr: " << host_cstr << std::endl;
+        //std::cout << "host_cstr: " << host_cstr << std::endl;
         std::string host(host_cstr);
-        std::cout << "host: " << host << std::endl;
+        //std::cout << "host: " << host << std::endl;
         hosts.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
@@ -77,9 +77,9 @@ int main(int argc, char **argv) {
         if (right_id == num_players) {
             right_id = 0;
         }
-        std::cout << "right_id: " << right_id << std::endl;
-        std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
-        std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
+        //std::cout << "right_id: " << right_id << std::endl;
+        //std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
+        //std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
         send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
 
         char host_cstr[255];
