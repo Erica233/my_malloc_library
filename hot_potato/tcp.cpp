@@ -11,6 +11,7 @@
 #include "potato.h"
 
 #define BACK_LOG 100
+#define MAX_HOST_LEN 255
 
 int create_server(const char * port) {
     char * hostname = NULL;

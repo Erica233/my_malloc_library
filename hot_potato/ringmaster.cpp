@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
 
-        char host_cstr[255];
+        char host_cstr[MAX_HOST_LEN];
         memset(host_cstr, 0, sizeof(host_cstr));
         recv(client_connect_fd, &host_cstr, sizeof(host_cstr), MSG_WAITALL);
         std::string host(host_cstr);
