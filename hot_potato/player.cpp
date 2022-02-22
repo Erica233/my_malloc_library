@@ -5,7 +5,7 @@
 #include <netdb.h>
 #include <unistd.h>
 
-#include "tcp.cpp"
+#include "tcp.h"
 #include "potato.h"
 
 int main(int argc, char **argv) {

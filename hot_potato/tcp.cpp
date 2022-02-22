@@ -1,18 +1,6 @@
-#include <iostream>
-#include <cstring>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <arpa/inet.h>
-#include <vector>
+#include "tcp.h"
 
-#include "potato.h"
-
-#define BACK_LOG 100
-
-int create_server(const char * port) {
+int Tcp::create_server(const char * port) {
     char * hostname = NULL;
     struct addrinfo host_info;
     struct addrinfo * host_info_list;
@@ -58,7 +46,7 @@ int create_server(const char * port) {
     return socket_fd;
 }
 
-int create_client(const char * port, const char * hostname) {
+int Tcp::create_client(const char * port, const char * hostname) {
     struct addrinfo host_info;
     struct addrinfo * host_info_list;
     memset(&host_info, 0, sizeof(host_info));
@@ -89,7 +77,7 @@ int create_client(const char * port, const char * hostname) {
     return socket_fd;
 }
 
-void select_read(std::vector<int> & fds, Potato & potato) {
+void Tcp::select_read(std::vector<int> & fds, Potato & potato) {
     //std::cout << "start of select_read(): \n";
     //std::cout << "tot_hops: " << potato.tot_hops << std::endl;
     int max_fd = 0;
