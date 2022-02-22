@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     std::cout << "host from gethostname()" << host << std::endl;
     struct hostent* h;
     h = gethostbyname(host);
-    std::cout << "host from gethostbyname()" << h->h_name << std::endl;
+    std::cout << "host from gethostbyname()" << h->h_addr_list[0] << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");
