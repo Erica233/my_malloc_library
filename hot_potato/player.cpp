@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
     std::vector<int> ids;
     fds.insert(fds.end(), {as_client_fd, client_connect_fd, socket_fd});
     ids.insert(ids.end(), {right_id, left_id});
+    srand((unsigned int)time(NULL) + id);
     while (true) {
         //std::cout << "enter while\n";
         //receive potato from ringmaster or other players
@@ -113,9 +114,9 @@ int main(int argc, char **argv) {
             continue;
         }
         //send to a random neighbor
-        srand((unsigned int)time(NULL) + id);
         int random_idx = rand() % 2;
         send(fds[random_idx], &potato, sizeof(potato), 0);
+        std::cout << "rightid & leftid: " << ids[0] << " " << ids[1] << "\n";
         std::cout << "Sending potato to " << ids[random_idx] << std::endl;
         std::cout << std::endl;
     }
