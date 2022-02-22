@@ -26,12 +26,10 @@ int main(int argc, char **argv) {
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
     char host[1024];
-    host[1023] = '\0';
-    gethostname(host, 1023);
-    char * host_p = NULL;
-    gethostname(host_p, sizeof host_p);
+    memset(host, 0, sizeof(host));
+    gethostname(host, sizeof(host));
     std::cout << "host from gethostname()" << host << std::endl;
-    std::cout << "host_p from gethostname()" << host_p << std::endl;
+    send(socket_fd, &host, sizeof(host), 0);
 
     //work as a server
     int as_server_fd = create_server("0");

@@ -63,12 +63,15 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
         //std::cout << "host_cstr: " << host_cstr << std::endl;
-        std::string host(host_cstr);
+        //std::string host(host_cstr);
         //std::cout << "host: " << host << std::endl;
-        hosts.push_back(host);
+        //hosts.push_back(host);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
+        recv(client_connect_fd, &host_cstr, sizeof(host_cstr), MSG_WAITALL);
+        std::string host(host_cstr);
+        hosts.push_back(host);
 
         uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
