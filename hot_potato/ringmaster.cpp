@@ -73,13 +73,13 @@ int main(int argc, char **argv) {
         uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
         std::cout << "Player " << i << " is ready to play\n";
-        std::cout << "num_players = " << num_players;
-        std::cout << "\nport = " << port << std::endl;
+        //std::cout << "num_players = " << num_players;
+        //std::cout << "\nport = " << port << std::endl;
         ports.push_back(port);
         fds.push_back(client_connect_fd);
         //std::cout << std::endl;
     }
-    print_vec(num_players, hosts, ports);
+    //print_vec(num_players, hosts, ports);
 
     //ring together players
     for (int i = 0; i < num_players; i++) {
@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
     //start game
     srand((unsigned int)time(NULL));
     int random = rand() % num_players;
-    std::cout << "random outside of if statement: " << random << std::endl;
+    //std::cout << "random outside of if statement: " << random << std::endl;
     //std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
     //wait for potato back
     if (num_hops == 0) {

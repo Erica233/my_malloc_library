@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     int num_players;
     recv(socket_fd, &id, sizeof(id), MSG_WAITALL);
     recv(socket_fd, &num_players, sizeof(num_players), MSG_WAITALL);
-    std::cout << "id = " << id << std::endl;
+    //std::cout << "id = " << id << std::endl;
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     uint16_t port_num = ntohs(addr.sin_port);
-    std::cout << "my port_num: " << port_num << std::endl;
+    //std::cout << "my port_num: " << port_num << std::endl;
 
     //send(socket_fd, &port_num, sizeof(port_num), 0);
     send(socket_fd, &port_num, sizeof(port_num), 0);
@@ -56,9 +56,9 @@ int main(int argc, char **argv) {
     recv(socket_fd, &right_port, sizeof(right_port), MSG_WAITALL);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), MSG_WAITALL);
     std::string right_host(right_host_cstr);
-    std::cout << "right_id: " << right_id << std::endl;
-    std::cout << "right_port: " << right_port << std::endl;
-    std::cout << "right_host: " << right_host << std::endl;
+    //std::cout << "right_id: " << right_id << std::endl;
+    //std::cout << "right_port: " << right_port << std::endl;
+    //std::cout << "right_host: " << right_host << std::endl;
     //std::cout << "right_host_cstr: " << right_host_cstr << std::endl;
     char right_port_cstr[10];
     memset(right_port_cstr, 0, sizeof(right_port_cstr));
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == 0) {
-            std::cout << "game ends\n";
+            //std::cout << "game ends\n";
             break;
         }
         //if get potato from other player, edit potato
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
         potato.curr_rnd++;
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         potato.remain_hops--;
-        std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
+        //std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         if (potato.remain_hops == 0) {
             std::cout << "I’m it\n";
             //send to ringmaster
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
         //send to a random neighbor
         int random_idx = rand() % 2;
         send(fds[random_idx], &potato, sizeof(potato), 0);
-        std::cout << "leftid & rightid: " << ids[1] << " " << ids[0] << "\n";
+        //std::cout << "leftid & rightid: " << ids[1] << " " << ids[0] << "\n";
         std::cout << "Sending potato to " << ids[random_idx] << std::endl;
         std::cout << std::endl;
     }
