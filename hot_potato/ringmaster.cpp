@@ -57,24 +57,14 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        char host_cstr[255];
-        memset(host_cstr, 0, sizeof(host_cstr));
-        /*
-        if (inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN) == NULL) {
-            std::cerr << "Error: inet_ntop() failed\n";
-            return EXIT_FAILURE;
-        }
-        //std::cout << "host_cstr: " << host_cstr << std::endl;
-        //std::string host(host_cstr);
-        //std::cout << "host: " << host << std::endl;
-        //hosts.push_back(host);
-         */
-
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
+
+        char host_cstr[255];
+        memset(host_cstr, 0, sizeof(host_cstr));
         recv(client_connect_fd, &host_cstr, sizeof(host_cstr), MSG_WAITALL);
         std::string host(host_cstr);
-        hosts.push_back(host_cstr);
+        hosts.push_back(host);
 
         uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
