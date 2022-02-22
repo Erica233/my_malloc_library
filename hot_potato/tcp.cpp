@@ -31,7 +31,7 @@ int create_server(const char * port) {
     char host[1024];
     host[1023] = '\0';
     gethostname(host, 1023);
-    std::cout << "hostname from gethostname()" << host << std::endl;
+    std::cout << "host from gethostname()" << host << std::endl;
     //socket
     int socket_fd = socket(host_info_list->ai_family, host_info_list->ai_socktype, host_info_list->ai_protocol);
     if (socket_fd == -1) {
