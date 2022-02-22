@@ -29,6 +29,9 @@ int main(int argc, char **argv) {
     host[1023] = '\0';
     gethostname(host, 1023);
     std::cout << "host from gethostname()" << host << std::endl;
+    struct hostent* h;
+    h = gethostbyname(host);
+    std::cout << "host from gethostbyname()" << h->h_name << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");
