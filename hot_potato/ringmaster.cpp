@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
         recv(client_connect_fd, &host_cstr, sizeof(host_cstr), MSG_WAITALL);
         std::string host(host_cstr);
-        hosts.push_back(host);
+        hosts.push_back(host_cstr);
 
         uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
