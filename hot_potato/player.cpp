@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
         //send to a random neighbor
         int random_idx = rand() % 2;
         send(fds[random_idx], &potato, sizeof(potato), 0);
-        std::cout << "rightid & leftid: " << ids[0] << " " << ids[1] << "\n";
+        std::cout << "leftid & rightid: " << ids[1] << " " << ids[0] << "\n";
         std::cout << "Sending potato to " << ids[random_idx] << std::endl;
         std::cout << std::endl;
     }
