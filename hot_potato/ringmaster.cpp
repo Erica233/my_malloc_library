@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
             std::cerr << "Error: accept() failed\n";
             return EXIT_FAILURE;
         }
+        fds.push_back(client_connect_fd);
 
         send(client_connect_fd, &i, sizeof(i), 0);
         send(client_connect_fd, &num_players, sizeof(num_players), 0);
@@ -69,10 +70,7 @@ int main(int argc, char **argv) {
         uint16_t port;
         recv(client_connect_fd, &port, sizeof(port), MSG_WAITALL);
         std::cout << "Player " << i << " is ready to play\n";
-        //std::cout << "num_players = " << num_players;
-        //std::cout << "\nport = " << port << std::endl;
         ports.push_back(port);
-        fds.push_back(client_connect_fd);
     }
     //print_vec(num_players, hosts, ports);
 
@@ -85,12 +83,11 @@ int main(int argc, char **argv) {
         //std::cout << "right_id: " << right_id << std::endl;
         //std::cout << "right_port (ports[right_id]): " << ports[right_id] << std::endl;
         //std::cout << "right_host (hosts[right_id]): " << hosts[right_id] << std::endl;
-        send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
-
         char host_cstr[MAX_HOST_LEN];
         memset(host_cstr, 0, sizeof(host_cstr));
         std::strcpy (host_cstr, hosts[right_id].c_str());
         send(fds[i], host_cstr, sizeof(host_cstr), 0);
+        send(fds[i], &ports[right_id], sizeof(ports[right_id]), 0);
     }
 
     //create potato object
@@ -104,8 +101,9 @@ int main(int argc, char **argv) {
     if (num_hops == 0) {
         //shut down
     } else {
-        std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
         send(fds[random], &potato, sizeof(potato), 0);
+        std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
+
         select_read(fds, potato);
         //report results
         std::cout << "Trace of potato: \n";

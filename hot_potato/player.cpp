@@ -58,13 +58,11 @@ int main(int argc, char **argv) {
     std::cout << "my port_num: " << port_num << std::endl;
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
-    std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
-
     uint16_t right_port;
     char right_host_cstr[MAX_HOST_LEN];
     memset(right_host_cstr, 0, sizeof(right_host_cstr));
-    recv(socket_fd, &right_port, sizeof(right_port), MSG_WAITALL);
     recv(socket_fd, &right_host_cstr, sizeof(right_host_cstr), MSG_WAITALL);
+    recv(socket_fd, &right_port, sizeof(right_port), MSG_WAITALL);
     std::string right_host(right_host_cstr);
     //std::cout << "right_id: " << right_id << std::endl;
     //std::cout << "right_port: " << right_port << std::endl;
@@ -74,6 +72,10 @@ int main(int argc, char **argv) {
     memset(right_port_cstr, 0, sizeof(right_port_cstr));
     sprintf(right_port_cstr, "%u", right_port);
     //std::cout << "right_port_cstr: " << right_port_cstr << std::endl;
+
+    std::cout << "Connected as player " << id << " out of " << num_players << " total players\n";
+
+
     // as a client, connect with right
     //std::cout << "as a client, connect with right: " << std::endl;
     int as_client_fd = create_client(right_port_cstr, right_host_cstr);
