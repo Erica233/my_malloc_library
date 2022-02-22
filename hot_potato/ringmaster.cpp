@@ -56,8 +56,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        //char host_cstr[255];
-        char host_cstr[1024];
+        char host_cstr[255];
         memset(host_cstr, 0, sizeof(host_cstr));
         if (inet_ntop(AF_INET, &(((struct sockaddr_in *)&socket_addr)->sin_addr), host_cstr, INET_ADDRSTRLEN) == NULL) {
             std::cerr << "Error: inet_ntop() failed\n";

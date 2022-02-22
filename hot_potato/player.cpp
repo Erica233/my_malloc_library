@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     //std::cout << "id = " << id << std::endl;
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
-    char host[1024];
+    char host[255];
     memset(host, 0, sizeof(host));
     gethostname(host, sizeof(host));
     std::cout << "host from gethostname()" << host << std::endl;
