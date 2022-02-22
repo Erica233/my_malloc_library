@@ -118,7 +118,6 @@ int main(int argc, char **argv) {
         send(fds[random_idx], &potato, sizeof(potato), 0);
         //std::cout << "leftid & rightid: " << ids[1] << " " << ids[0] << "\n";
         std::cout << "Sending potato to " << ids[random_idx] << std::endl;
-        std::cout << std::endl;
     }
 
     close(socket_fd);
