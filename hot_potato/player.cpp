@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
         left_id = num_players - 1;
     }
     int right_id = id + 1;
-    if (right_id == num_players - 1) {
+    if (right_id == num_players) {
         right_id = 0;
     }
     uint16_t right_port;

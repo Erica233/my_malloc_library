@@ -13,7 +13,7 @@
 
 void print_vec(int num_players, std::vector<std::string> & hosts, std::vector<uint16_t> & ports) {
     std::cout << "========print_vec()========\n";
-    std::cout << "id   host               port\n";
+    std::cout << "id     host            port\n";
     for (int i = 0; i < num_players; i++) {
         std::cout << i << "    " << hosts[i] << "      " << ports[i] << std::endl;
     }
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
                 std::cout << potato.ids[i] << "\n";
                 break;
             }
-            std::cout << potato.ids[i] << " ";
+            std::cout << potato.ids[i] << ",";
         }
     }
     //shut down the game
