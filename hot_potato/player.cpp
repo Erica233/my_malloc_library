@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     int num_players;
     recv(socket_fd, &id, sizeof(id), MSG_WAITALL);
     recv(socket_fd, &num_players, sizeof(num_players), MSG_WAITALL);
-    std::cout << "id = " << id;
+    std::cout << "id = " << id << std::endl;
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
 

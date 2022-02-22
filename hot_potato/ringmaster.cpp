@@ -11,6 +11,15 @@
 #include "potato.h"
 #include "tcp.cpp"
 
+void print_vec(int num_players, std::vector<std::string> & hosts, std::vector<uint16_t> & ports) {
+    std::cout << "========print_vec()========\n";
+    std::cout << "id   host               port\n";
+    for (int i = 0; i < num_players; i++) {
+        std::cout << id << "  " << hosts[i] << "  " << ports[i] << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 int main(int argc, char **argv) {
     if (argc != 4) {
         std::cerr << "Usage: program <port_num> <num_players> <num_hops>\n";
@@ -70,6 +79,7 @@ int main(int argc, char **argv) {
         fds.push_back(client_connect_fd);
         std::cout << std::endl;
     }
+    print_vec(num_players, hosts, ports);
 
     //ring together players
     for (int i = 0; i < num_players; i++) {
