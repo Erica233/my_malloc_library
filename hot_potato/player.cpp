@@ -25,6 +25,10 @@ int main(int argc, char **argv) {
     //std::cout << "id = " << id << std::endl;
     //std::cout << "\nnum_players = " << num_players;
     //std::cout << "\nmaster_port = " << master_port << std::endl;
+    char host[1024];
+    host[1023] = '\0';
+    gethostname(host, 1023);
+    std::cout << "host from gethostname()" << host << std::endl;
 
     //work as a server
     int as_server_fd = create_server("0");

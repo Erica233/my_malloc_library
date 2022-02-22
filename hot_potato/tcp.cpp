@@ -27,11 +27,6 @@ int create_server(const char * port) {
         std::cerr << hostname << "," << port << std::endl;
         exit(EXIT_FAILURE);
     }
-    std::cout << "hostname from getaddrinfo()" << hostname << std::endl;
-    char host[1024];
-    host[1023] = '\0';
-    gethostname(host, 1023);
-    std::cout << "host from gethostname()" << host << std::endl;
     //socket
     int socket_fd = socket(host_info_list->ai_family, host_info_list->ai_socktype, host_info_list->ai_protocol);
     if (socket_fd == -1) {
@@ -59,7 +54,6 @@ int create_server(const char * port) {
         std::cerr << hostname << "," << port << std::endl;
         exit(EXIT_FAILURE);
     }
-    std::cout << "hostname from getaddrinfo()" << hostname << std::endl;
     freeaddrinfo(host_info_list);
     return socket_fd;
 }
