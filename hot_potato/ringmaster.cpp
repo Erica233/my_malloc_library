@@ -12,7 +12,7 @@
 #include "tcp.cpp"
 
 void print_vec(int num_players, std::vector<std::string> & hosts, std::vector<uint16_t> & ports) {
-    std::cout << "========print_vec()========\n";
+    std::cout << "========print_vec()=========\n";
     std::cout << "id     host            port\n";
     for (int i = 0; i < num_players; i++) {
         std::cout << i << "    " << hosts[i] << "      " << ports[i] << std::endl;
