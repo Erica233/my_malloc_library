@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
         //std::cout << "tot_hops: " << potato.tot_hops << std::endl;
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
-        if (potato.remain_hops == 0) {
+        if (potato.remain_hops == -1) {
             //std::cout << "game ends\n";
             break;
         }
@@ -122,6 +122,7 @@ int main(int argc, char **argv) {
         if (potato.remain_hops == 0) {
             std::cout << "I’m it\n";
             //send to ringmaster
+            potato.remain_hops = -1;
             send(socket_fd, &potato, sizeof(potato), 0);
             continue;
         }
