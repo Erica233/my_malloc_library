@@ -114,8 +114,9 @@ int main(int argc, char **argv) {
         }
         //if get potato from other player, edit potato
         //std::cout << "edit potato: \n";
+        std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         potato.ids[potato.curr_rnd] = id;
-        //std::cout << "ids[potato.curr_rnd] = " << potato.ids[potato.curr_rnd] << std::endl;
+        std::cout << "ids[potato.curr_rnd] = " << potato.ids[potato.curr_rnd] << std::endl;
         potato.curr_rnd++;
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         potato.remain_hops--;
