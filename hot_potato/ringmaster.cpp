@@ -105,6 +105,11 @@ int main(int argc, char **argv) {
         std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
 
         select_read(fds, potato);
+        //shut down the game
+        for (int i = 0; i < num_players; i++) {
+            send(fds[i], &potato, sizeof(potato), 0);
+            close(fds[i]);
+        }
         //report results
         std::cout << "Trace of potato: \n";
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
@@ -116,11 +121,7 @@ int main(int argc, char **argv) {
             std::cout << potato.ids[i] << ",";
         }
     }
-    //shut down the game
-    for (int i = 0; i < num_players; i++) {
-        send(fds[i], &potato, sizeof(potato), 0);
-        close(fds[i]);
-    }
+
     close(socket_fd);
     return EXIT_SUCCESS;
 }
