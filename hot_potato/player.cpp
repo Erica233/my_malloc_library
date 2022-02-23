@@ -101,12 +101,10 @@ int main(int argc, char **argv) {
     srand((unsigned int)time(NULL) + id);
     while (true) {
         std::cout << "------enter while\n";
-        print_time();
         //receive potato from ringmaster or other players
         select_read(fds, potato);
         std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         std::cout << "after select_read()\n";
-        print_time();
         //std::cout << "tot_hops: " << potato.tot_hops << std::endl;
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
