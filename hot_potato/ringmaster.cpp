@@ -117,10 +117,10 @@ int main(int argc, char **argv) {
         std::cout << "Trace of potato: \n";
         print_time();
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
-        for (int i = 0; i < 512; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i == num_hops - 1) {
                 std::cout << potato.ids[i] << "\n";
-                break;
+                //break;
             }
             std::cout << potato.ids[i] << ",";
         }
