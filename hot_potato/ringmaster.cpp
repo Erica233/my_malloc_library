@@ -105,16 +105,19 @@ int main(int argc, char **argv) {
         std::cout << "Ready to start the game, sending potato to player " << random << std::endl;
 
         select_read(fds, potato);
+        print_time();
         //shut down the game
         std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         for (int i = 0; i < num_players; i++) {
             send(fds[i], &potato, sizeof(potato), 0);
+            print_time();
             //close(fds[i]);
         }
         //report results
         std::cout << "Trace of potato: \n";
+        print_time();
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
-        for (int i = 0; i < num_hops; i++) {
+        for (int i = 0; i < potato.ids.size(); i++) {
             if (i == num_hops - 1) {
                 std::cout << potato.ids[i] << "\n";
                 break;
@@ -122,6 +125,7 @@ int main(int argc, char **argv) {
             std::cout << potato.ids[i] << ",";
         }
     }
+    print_time();
     for (int i = 0; i < num_players; i++) {
         //send(fds[i], &potato, sizeof(potato), 0);
         close(fds[i]);

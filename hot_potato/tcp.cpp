@@ -7,11 +7,21 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <vector>
+#include <time.h>
 
 #include "potato.h"
 
 #define BACK_LOG 100
 #define MAX_HOST_LEN 255
+
+void print_time() {
+    time_t rawtime;
+    struct tm * timeinfo;
+
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    std::cout << "current time is: " << asctime (timeinfo);
+}
 
 int create_server(const char * port) {
     char * hostname = NULL;
