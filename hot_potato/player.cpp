@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
         //std::cout << "curr_rnd: " << potato.curr_rnd << std::endl;
         //if the ringmaster notify that the game ends, jump out of loop
         if (potato.remain_hops == -1) {
-            //std::cout << "game ends\n";
+            std::cout << "game ends\n";
             break;
         }
         //if get potato from other player, edit potato
