@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
         std::cerr << "Error: gethostname() failed\n";
         return EXIT_FAILURE;
     }
-    std::cout << "host from gethostname()" << host << std::endl;
+    //std::cout << "host from gethostname()" << host << std::endl;
     send(socket_fd, &host, sizeof(host), 0);
 
     //work as a server and get port, and send to ringmaster
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     uint16_t port_num = ntohs(addr.sin_port);
-    std::cout << "my port_num: " << port_num << std::endl;
+    //std::cout << "my port_num: " << port_num << std::endl;
     send(socket_fd, &port_num, sizeof(port_num), 0);
 
     uint16_t right_port;
