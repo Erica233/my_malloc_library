@@ -106,9 +106,10 @@ int main(int argc, char **argv) {
 
         select_read(fds, potato);
         //shut down the game
+        std::cout << "potato.remain_hops: " << potato.remain_hops << std::endl;
         for (int i = 0; i < num_players; i++) {
             send(fds[i], &potato, sizeof(potato), 0);
-            close(fds[i]);
+            //close(fds[i]);
         }
         //report results
         std::cout << "Trace of potato: \n";
@@ -120,6 +121,10 @@ int main(int argc, char **argv) {
             }
             std::cout << potato.ids[i] << ",";
         }
+    }
+    for (int i = 0; i < num_players; i++) {
+        //send(fds[i], &potato, sizeof(potato), 0);
+        close(fds[i]);
     }
 
     close(socket_fd);
